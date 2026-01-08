@@ -29,15 +29,3 @@
     background: transparent; /* Optional: just make it invisible */
   }
 }
-
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  overflow: hidden;
-}
-
-#root {
-  width: 100%;
-  height: 100vh;
-}
