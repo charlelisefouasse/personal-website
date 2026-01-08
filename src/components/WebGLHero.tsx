@@ -222,7 +222,7 @@ const WebGLHero = () => {
       const plane = new Plane(curtains, container, params as any);
 
       plane.onRender(() => {
-        plane.uniforms.uTime.value += 0.01;
+        plane.uniforms.uTime.value = Number(plane.uniforms.uTime.value) + 0.01;
       });
 
       const handleMouseMove = (e: MouseEvent) => {

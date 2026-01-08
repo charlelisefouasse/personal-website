@@ -3,6 +3,7 @@ import CreativePage from "./components/CreativePage";
 import ProfessionalPage from "./components/ProfessionalPage";
 import WebGLHero from "./components/WebGLHero";
 import GalleryPage from "./components/GalleryPage";
+import PrinterTimelapse from "./components/PrinterTimelapse";
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -68,7 +69,7 @@ function App() {
       >
         <CreativePage />
         <GalleryPage containerRef={containerRef} />
-        <CreativePage />
+        <PrinterTimelapse containerRef={containerRef} />
       </section>
     </div>
   );

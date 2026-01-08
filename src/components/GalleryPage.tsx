@@ -73,7 +73,7 @@ const GalleryPage = ({
               />
             </div>
           ))}
-          <div className="shrink-0 w-[20vw] md:w-[calc(50vw-200px)] h-1" />
+          <div className="shrink-0 w-[15vw] md:w-[calc(50vw-200px)] h-1" />
         </motion.section>
       </div>
     </div>
