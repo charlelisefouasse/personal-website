@@ -7,7 +7,7 @@ interface LayerProps {
 
 const CreativeLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
   return (
-    <div className="absolute inset-0 z-0 flex flex-col px-4 py-16 md:px-16">
+    <div className="absolute inset-0 z-0 flex flex-col p-4 py-8 md:p-16">
       {/* Dynamic Background */}
 
       <div className="pointer-events-none absolute bottom-1/2 left-1/2 h-screen w-screen -translate-x-1/2 -translate-y-1/2 opacity-20">

@@ -1,56 +1,68 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useLayoutEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CreativeBackground from "./CreativeBackground";
 
-const PrinterTimelapse = ({
-  containerRef,
-}: {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-}) => {
-  const localRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: localRef,
-    container: containerRef,
-    offset: ["start start", "end end"],
-  });
+gsap.registerPlugin(ScrollTrigger);
 
-  // Reveal the finished print from bottom (100% clip) to top (0% clip)
-  // as the user scrolls through the section.
-  const clipPathInset = useTransform(
-    scrollYProgress,
-    [0.2, 0.8],
-    ["100%", "0%"],
-  );
+const PrinterTimelapse = () => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const finishedImageRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const wrapper = wrapperRef.current;
+      const finishedImage = finishedImageRef.current;
+
+      if (!wrapper || !finishedImage) return;
+
+      gsap.fromTo(
+        finishedImage,
+        { clipPath: "inset(100% 0% 0% 0%)" },
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrapper,
+            pin: true,
+            start: "top top",
+            end: () => (window.innerWidth > 1024 ? "+=200%" : "+=100%"),
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+    }, wrapperRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div
-      ref={localRef}
-      className="relative h-[150vh] w-full bg-slate-950 md:h-[300vh]"
+      ref={wrapperRef}
+      className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-slate-950"
     >
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden p-8 md:p-16">
-        <CreativeBackground />
+      <CreativeBackground />
 
-        <div className="relative flex aspect-square w-full max-w-5xl items-center justify-center md:aspect-video">
+      <div className="relative flex aspect-square w-full max-w-5xl items-center justify-center p-8 md:aspect-video md:p-16">
+        {/* Empty Printer (Background Layer) */}
+        <img
+          src="/printer_empty.png"
+          alt="3D Printer Empty"
+          className="absolute inset-0 z-0 m-auto h-full overflow-hidden rounded-3xl object-contain"
+        />
+
+        {/* Finished Printer (Foreground Layer with ClipPath) */}
+        <div
+          ref={finishedImageRef}
+          className="absolute inset-0 z-10 h-full w-full"
+          style={{ clipPath: "inset(100% 0% 0% 0%)" }} // Initial state
+        >
           <img
-            src="/printer_empty.png"
-            alt="3D Printer Empty"
-            className="absolute inset-0 z-0 m-auto h-full overflow-hidden rounded-3xl object-contain"
+            src="/printer_finished.png"
+            alt="3D Printer Finished"
+            className="m-auto h-full rounded-3xl object-contain"
           />
-          <motion.div
-            style={{
-              clipPath: useTransform(
-                clipPathInset,
-                (val) => `inset(${val} 0 0 0)`,
-              ),
-            }}
-            className="absolute inset-0 z-10 h-full w-full"
-          >
-            <img
-              src="/printer_finished.png"
-              alt="3D Printer Finished"
-              className="m-auto h-full rounded-3xl object-contain"
-            />
-          </motion.div>
         </div>
       </div>
     </div>

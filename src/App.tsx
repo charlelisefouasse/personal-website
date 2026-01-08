@@ -1,89 +1,97 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import Snap from "lenis/snap";
+
 import CreativePage from "./components/CreativePage";
 import ProfessionalPage from "./components/ProfessionalPage";
 import WebGLHero from "./components/WebGLHero";
 import GalleryPage from "./components/GalleryPage";
 import PrinterTimelapse from "./components/PrinterTimelapse";
 
-function App() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const creativeSectionRef = useRef<HTMLDivElement>(null);
+gsap.registerPlugin(ScrollTrigger);
 
-  const [isSnapping, setIsSnapping] = useState(true);
+function App() {
+  const heroRef = useRef<HTMLDivElement>(null);
+
   const [isHeroVisible, setIsHeroVisible] = useState(true);
 
-  // Intersection Observer for Hero visibility
   useEffect(() => {
-    const container = containerRef.current;
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+    });
+
+    const snap = new Snap(lenis, {
+      type: "proximity",
+      lerp: 0.1,
+      duration: 0.4,
+    });
+
+    const sections = document.querySelectorAll<HTMLElement>(".snap-section");
+    sections.forEach((section) => snap.addElement(section));
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      lenis.destroy();
+      gsap.ticker.remove(lenis.raf);
+    };
+  }, []);
+
+  useEffect(() => {
     const hero = heroRef.current;
-    if (!container || !hero) return;
+    if (!hero) return;
 
     const target = hero.offsetTop;
-    container.scrollTop = target;
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: target,
+        behavior: "instant",
+      });
+    }, 10);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsHeroVisible(entry.isIntersecting);
       },
       {
-        root: container,
-        threshold: 0, // Trigger as soon as it enters/leaves the viewport
+        threshold: 0,
       },
     );
 
     observer.observe(hero);
-
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      if (!creativeSectionRef.current) return;
-
-      const creativeSectionTop = creativeSectionRef.current.offsetTop;
-      const currentScroll = container.scrollTop;
-
-      // Tolerance buffer (e.g., 10px) to prevent flickering at the exact border
-      const buffer = 10;
-
-      if (currentScroll >= creativeSectionTop - buffer) {
-        setIsSnapping(false);
-      } else {
-        setIsSnapping(true);
-      }
-    };
-
-    container.addEventListener("scroll", handleScroll);
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <div
-      ref={containerRef}
-      className={`scrollbar-hide h-screen overflow-x-hidden overflow-y-auto ${isSnapping ? "scroll-snap-y snap-y snap-mandatory" : ""} `}
-    >
-      <section className="h-screen w-full shrink-0 snap-start">
+    <div className="min-h-screen w-full bg-slate-950 text-white">
+      <section className="snap-section h-svh w-full shrink-0">
         <ProfessionalPage />
       </section>
 
       <section
         ref={heroRef}
-        className="relative h-screen w-full shrink-0 snap-start overflow-hidden bg-[#fcfbf9]"
+        className="snap-section relative h-svh w-full shrink-0 overflow-hidden bg-[#fcfbf9]"
       >
         {isHeroVisible && <WebGLHero />}
       </section>
 
-      <section
-        className="w-full shrink-0 snap-start bg-slate-950"
-        ref={creativeSectionRef}
-      >
+      <section className="snap-section w-full shrink-0 bg-slate-950">
         <CreativePage />
-        <GalleryPage containerRef={containerRef} />
-        <PrinterTimelapse containerRef={containerRef} />
+        <GalleryPage />
+        <PrinterTimelapse />
       </section>
     </div>
   );

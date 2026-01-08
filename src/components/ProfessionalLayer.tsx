@@ -7,7 +7,7 @@ interface LayerProps {
 
 const ProfessionalLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
   return (
-    <div className="absolute inset-0 flex flex-col px-4 py-16 md:px-16">
+    <div className="absolute inset-0 flex flex-col p-4 py-8 md:p-16">
       <div className="relative flex flex-1 flex-col items-center justify-center">
         {/* Centered Image */}
         {!hideImage && (
@@ -20,7 +20,7 @@ const ProfessionalLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
           </div>
         )}
 
-        <div className="absolute top-10 right-0 flex max-w-lg items-start gap-4 text-right">
+        <div className="absolute top-0 right-0 flex max-w-lg items-start gap-4 text-right">
           <h2 className="text-2xl leading-[0.9] font-black text-gray-400 sm:text-3xl md:text-5xl">
             <span className="text-4xl text-gray-900 sm:text-5xl md:text-7xl">
               FRONT-END

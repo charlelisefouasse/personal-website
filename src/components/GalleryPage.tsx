@@ -1,76 +1,69 @@
-import { useRef, useState, useLayoutEffect, useCallback } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef, useLayoutEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CreativeBackground from "./CreativeBackground";
 
-const GalleryPage = ({
-  containerRef,
-}: {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-}) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const ghostRef = useRef<HTMLDivElement>(null);
-  const [scrollRange, setScrollRange] = useState(0);
-  const [viewportW, setViewportW] = useState(0);
+gsap.registerPlugin(ScrollTrigger);
+
+const GalleryPage = () => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const containerRefInternal = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useLayoutEffect(() => {
-    scrollRef.current && setScrollRange(scrollRef.current.scrollWidth);
-  }, [scrollRef]);
+    const ctx = gsap.context(() => {
+      if (!wrapperRef.current || !containerRefInternal.current) return;
 
-  // Use a resize observer to keep viewport width accurate
-  const onResize = useCallback((entries: ResizeObserverEntry[]) => {
-    for (const entry of entries) {
-      setViewportW(entry.contentRect.width);
-    }
+      const container = containerRefInternal.current;
+      const wrapper = wrapperRef.current;
+
+      const scrollDistance = container.scrollWidth - window.innerWidth;
+
+      gsap.to(container, {
+        x: -scrollDistance,
+        ease: "none",
+        scrollTrigger: {
+          trigger: wrapper,
+          pin: true,
+          scrub: 1.5,
+          start: "top top",
+          end: () => (window.innerWidth > 1024 ? "+=4000" : "+=2000"),
+          invalidateOnRefresh: true,
+        },
+      });
+    }, wrapperRef);
+
+    return () => ctx.revert();
   }, []);
-
-  useLayoutEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => onResize(entries));
-    if (ghostRef.current) resizeObserver.observe(ghostRef.current);
-    return () => resizeObserver.disconnect();
-  }, [onResize]);
-
-  const { scrollYProgress } = useScroll({
-    target: ghostRef,
-    container: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  const finalX = -scrollRange + viewportW;
-  const transform = useTransform(scrollYProgress, [0, 1], [0, finalX]);
-
-  const physics = { damping: 15, mass: 0.27, stiffness: 55 };
-  const spring = useSpring(transform, physics);
 
   return (
     <div
-      ref={ghostRef}
-      style={{ height: scrollRange }}
-      className="relative w-full bg-slate-950"
+      ref={wrapperRef}
+      className="relative flex h-screen w-full items-center overflow-hidden bg-slate-950"
     >
-      <div className="sticky top-0 right-0 left-0 flex h-screen items-center overflow-hidden">
-        <CreativeBackground />
+      <CreativeBackground />
 
-        <motion.section
-          ref={scrollRef}
-          style={{ x: spring }}
-          className="relative z-10 flex w-max items-center gap-[5vw] px-[5vw]"
-        >
-          {/* Spacer to center the first image initially */}
-          <div className="h-1 w-[20vw] shrink-0 md:w-[calc(50vw-200px)]" />
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="group relative aspect-3/4 w-[60vw] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-gray-900 shadow-2xl md:w-[400px]"
-            >
-              <img
-                src="/creative.png"
-                alt={`Gallery ${i + 1}`}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          ))}
-          <div className="h-1 w-[15vw] shrink-0 md:w-[calc(50vw-200px)]" />
-        </motion.section>
+      <div
+        ref={containerRefInternal}
+        className="flex w-max items-center gap-[5vw] px-[5vw]"
+      >
+        <div className="w-[40vw] shrink-0" />
+        {[...Array(10)].map((_, i) => (
+          <div
+            key={i}
+            ref={(el) => {
+              cardsRef.current[i] = el;
+            }}
+            className="group relative aspect-3/4 w-[60vw] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-gray-900 shadow-2xl md:w-[400px]"
+          >
+            <img
+              src="/creative.png"
+              alt={`Gallery ${i + 1}`}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        ))}
+        <div className="w-[40vw] shrink-0" />
       </div>
     </div>
   );
