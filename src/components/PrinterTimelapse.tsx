@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import CreativeBackground from "./CreativeBackground";
 
 const PrinterTimelapse = ({
   containerRef,
@@ -22,14 +23,12 @@ const PrinterTimelapse = ({
   );
 
   return (
-    <div ref={localRef} className="relative h-[300vh] w-full bg-slate-950">
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none opacity-30 z-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
-            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600 rounded-full blur-[180px]" />
-            <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600 rounded-full blur-[180px]" />
-          </div>
-        </div>
+    <div
+      ref={localRef}
+      className="relative h-[150vh] md:h-[300vh] w-full bg-slate-950 "
+    >
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden p-8 md:p-16">
+        <CreativeBackground />
 
         <div className="relative w-full max-w-5xl aspect-square md:aspect-video flex items-center justify-center">
           <img

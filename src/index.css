@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --color-brand-primary: #000000;
@@ -17,12 +17,16 @@
 }
 
 @layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    width: 0;
+    height: 0;
+    background: transparent; /* Optional: just make it invisible */
   }
 }
 

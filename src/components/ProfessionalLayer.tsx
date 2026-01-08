@@ -7,7 +7,7 @@ interface LayerProps {
 
 const ProfessionalLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
   return (
-    <div className="absolute inset-0 flex flex-col p-8 md:p-16">
+    <div className="absolute inset-0 flex flex-col px-4 md:px-16 py-16">
       <div className="flex-1 relative flex flex-col items-center justify-center">
         {/* Centered Image */}
         {!hideImage && (
@@ -20,18 +20,18 @@ const ProfessionalLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
           </div>
         )}
 
-        <div className="absolute top-0 right-0 max-w-lg text-right flex items-start gap-4">
-          <h2 className="text-3xl md:text-5xl font-black leading-[0.9] text-gray-400">
-            <span className="text-gray-900 text-5xl md:text-7xl">
+        <div className="absolute top-10 right-0 max-w-lg text-right flex items-start gap-4">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black leading-[0.9] text-gray-400">
+            <span className="text-gray-900 text-4xl sm:text-5xl md:text-7xl">
               FRONT-END
             </span>
             <br />
             DEVELOPER
           </h2>
           <div className="flex flex-col text-gray-400 opacity-60 mb-4 animate-bounce">
-            <ChevronUpIcon size={40} />
-            <ChevronUpIcon size={40} />
-            <ChevronUpIcon size={40} />
+            <ChevronUpIcon className="w-8 h-8 md:w-12 md:h-12" />
+            <ChevronUpIcon className="w-8 h-8 md:w-12 md:h-12" />
+            <ChevronUpIcon className="w-8 h-8 md:w-12 md:h-12" />
           </div>
         </div>
       </div>

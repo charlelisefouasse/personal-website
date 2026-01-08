@@ -7,7 +7,7 @@ interface LayerProps {
 
 const CreativeLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
   return (
-    <div className="absolute inset-0 z-0 flex flex-col p-8 md:p-16">
+    <div className="absolute inset-0 z-0 flex flex-col px-4 md:px-16 py-16">
       {/* Dynamic Background */}
 
       <div className="absolute bottom-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen pointer-events-none opacity-20">
@@ -29,12 +29,12 @@ const CreativeLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
 
         <div className="absolute bottom-0 left-0 max-w-lg text-left flex items-end gap-4">
           <div className="flex flex-col text-cyan-400 animate-bounce">
-            <ChevronDownIcon size={40} />
-            <ChevronDownIcon size={40} />
-            <ChevronDownIcon size={40} />
+            <ChevronDownIcon className="w-8 h-8 md:w-12 md:h-12" />
+            <ChevronDownIcon className="w-8 h-8 md:w-12 md:h-12" />
+            <ChevronDownIcon className="w-8 h-8 md:w-12 md:h-12" />
           </div>
-          <h2 className="text-3xl md:text-5xl font-black leading-[0.9] text-white">
-            <span className="text-6xl md:text-8xl text-transparent bg-clip-text bg-linear-to-br from-cyan-400 to-purple-600">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black leading-[0.9] text-white">
+            <span className="text-4xl sm:text-6xl md:text-8xl text-transparent bg-clip-text bg-linear-to-br from-cyan-400 to-purple-600">
               COSPLAY
             </span>
             <br />

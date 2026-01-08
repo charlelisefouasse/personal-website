@@ -1,5 +1,6 @@
 import { useRef, useState, useLayoutEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import CreativeBackground from "./CreativeBackground";
 
 const GalleryPage = ({
   containerRef,
@@ -47,12 +48,7 @@ const GalleryPage = ({
       className="relative w-full bg-slate-950"
     >
       <div className="sticky top-0 left-0 right-0 h-screen overflow-hidden flex items-center">
-        <div className="absolute inset-0 pointer-events-none opacity-30 z-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
-            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600 rounded-full blur-[180px]" />
-            <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600 rounded-full blur-[180px]" />
-          </div>
-        </div>
+        <CreativeBackground />
 
         <motion.section
           ref={scrollRef}

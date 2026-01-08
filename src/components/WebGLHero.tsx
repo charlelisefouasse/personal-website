@@ -97,47 +97,77 @@ const WebGLHero = () => {
             // Final background for this layer
             vec4 finalBg = bgColor;
             if (isChaos) {
-                // Port dynamic glows to Chaos side - PIXEL PERFECT MATCH
-                // CSS Logic:
-                // Container: w-screen h-screen
-                // Blue: top-1/4 left-1/4 w-[500px] h-[500px]
-                // Purple: bottom-1/4 right-1/4 ...
+                // EXACT Match for CreativeBackground.tsx
+                // Logic:
+                // Parent: opacity-30 (0.3 intensity)
+                // Mobile (<768px): w-250px h-250px, blur-80px
+                // Desktop (>=768px): w-400px h-500px, blur-180px
                 
-                // Conversions:
-                // Top-1/4 (y) = 0.75 * H. Element Top is at 0.75. Center is -250px (down).
-                // Left-1/4 (x) = 0.25 * W. Element Left is at 0.25. Center is +250px (right).
+                bool isDesktop = resW >= 768.0;
+                vec2 size = isDesktop ? vec2(400.0, 500.0) : vec2(250.0, 250.0);
+                float blurPx = isDesktop ? 180.0 : 80.0;
                 
-                // Bottom-1/4 (y) = 0.25 * H. Element Bottom is at 0.25. Center is +250px (up).
-                // Right-1/4 (x) = 0.75 * W. Element Right is at 0.75. Center is -250px (left).
-
+                vec2 radius = size * 0.5;
                 vec2 currentPixel = uv * vec2(resW, resH);
 
-                // Blob 1: Blue (Top-Left CSS)
-                // Center Y in UV space is calculated from bottom, so Top-1/4 is 0.75 height.
-                // But CSS Top-1/4 means the TOP EDGE is at 25% from top.
-                // So Top Edge Y = resH * 0.75.
-                // Center Y = resH * 0.75 - 250.0.
-                // Left Edge X = resW * 0.25.
-                // Center X = resW * 0.25 + 250.0.
-                vec2 center1Px = vec2(resW * 0.25 + 250.0, resH * 0.75 - 250.0);
-                float dist1 = distance(currentPixel, center1Px);
-                
-                // Blob size 500px (radius 250) + Blur 180px.
-                // Smooth falloff to match the soft css blur.
-                float glow1 = smoothstep(450.0, 0.0, dist1) * 0.35; 
-                
-                // Blob 2: Purple (Bottom-Right CSS)
-                // Bottom Edge Y = resH * 0.25.
-                // Center Y = resH * 0.25 + 250.0.
-                // Right Edge X = resW * 0.75.
-                // Center X = resW * 0.75 - 250.0.
-                vec2 center2Px = vec2(resW * 0.75 - 250.0, resH * 0.25 + 250.0);
-                float dist2 = distance(currentPixel, center2Px);
-                
-                float glow2 = smoothstep(450.0, 0.0, dist2) * 0.35;
+                // Gaussian Sigma approximation for CSS filter: blur(Npx)
+                // CSS blur uses a Gaussian with standard deviation ~ N/2 or so, but visually
+                // the "spread" feels larger. We'll use sigma = blurPx.
+                float sigma = blurPx; 
+                float twoSigmaSq = 2.0 * sigma * sigma;
 
-                finalBg.rgb += vec3(0.145, 0.388, 0.922) * glow1; 
-                finalBg.rgb += vec3(0.576, 0.200, 0.918) * glow2;
+                // ---------------------------------------------------------
+                // Blob 1: Blue (bg-blue-600)
+                // CSS: Top-1/4, Left-1/4 (Defining Top-Left corner of element)
+                // Top-1/4 = 25% from top = 75% height in GL.
+                // Left-1/4 = 25% from left = 25% width in GL.
+                // Center X = 0.25*W + radius.x
+                // Center Y = 0.75*H - radius.y
+                vec2 center1 = vec2(resW * 0.25 + radius.x, resH * 0.75 - radius.y);
+                float dist1 = distance(currentPixel, center1);
+                
+                // Box-aware distance for non-square blobs? 
+                // Using simple distance for now as CSS rounded-full on rectangle makes an oval.
+                // Actually rounded-full on 400x500 makes an oval.
+                // We'll use an elliptical distance correction if needed, but simple distance 
+                // to center usually is fine for soft blurs. 
+                // Let's refine: The CSS is a DIV with bg-color and rounded-full.
+                // 400x500 rounded-full IS an ellipse.
+                // So we should normalize the distance by the radius dimensions.
+                
+                vec2 diff1 = (currentPixel - center1);
+                // Implicit ellipse equation: (dx/rx)^2 + (dy/ry)^2
+                float distSq1 = dot( (diff1/radius)*(diff1/radius), vec2(1.0) );
+                
+                // We want the 'edge' of the ellipse to be where the solid color ends and blur begins?
+                // CSS blur extends OUTWARD from the element.
+                // So effectively, the element is the core.
+                // Distance to the edge of the ellipse = sqrt(distSq1) - 1.0 (in normalized space)
+                // But simplified: we just want a soft falloff scaling with the blur size.
+                // Let's stick to world-space gaussian but masked by the ellipse? 
+                // Simpler: Just render a gaussian blob of roughly that size + blur.
+                // Effective radius ~ radius + blur.
+                
+                // Let's stick to the visual approximation:
+                // Normalized distance:
+                float nd1 = length(diff1 / (radius + vec2(blurPx))); 
+                float val1 = exp(-2.0 * nd1 * nd1); // Bell curve
+                
+                // ---------------------------------------------------------
+                // Blob 2: Purple (bg-purple-600)
+                // CSS: Bottom-1/4, Right-1/4 (Defining Bottom-Right corner)
+                // Bottom-1/4 = 25% height in GL.
+                // Right-1/4 = 75% width in GL.
+                // Center X = 0.75*W - radius.x
+                // Center Y = 0.25*H + radius.y
+                vec2 center2 = vec2(resW * 0.75 - radius.x, resH * 0.25 + radius.y);
+                vec2 diff2 = (currentPixel - center2);
+                float nd2 = length(diff2 / (radius + vec2(blurPx)));
+                float val2 = exp(-2.0 * nd2 * nd2);
+
+                // Opacity 30% -> 0.3 intensity
+                finalBg.rgb += vec3(0.145, 0.388, 0.922) * val1 * 0.3; 
+                finalBg.rgb += vec3(0.576, 0.200, 0.918) * val2 * 0.3;
             }
             
             vec4 texColor = texture2D(tex, imgUV);
