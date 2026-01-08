@@ -11,7 +11,9 @@ function App() {
   const creativeSectionRef = useRef<HTMLDivElement>(null);
 
   const [isSnapping, setIsSnapping] = useState(true);
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
 
+  // Intersection Observer for Hero visibility
   useEffect(() => {
     const container = containerRef.current;
     const hero = heroRef.current;
@@ -19,6 +21,20 @@ function App() {
 
     const target = hero.offsetTop;
     container.scrollTop = target;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsHeroVisible(entry.isIntersecting);
+      },
+      {
+        root: container,
+        threshold: 0, // Trigger as soon as it enters/leaves the viewport
+      },
+    );
+
+    observer.observe(hero);
+
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -60,7 +76,7 @@ function App() {
         ref={heroRef}
         className="relative h-screen w-full snap-start shrink-0 overflow-hidden bg-[#fcfbf9]"
       >
-        <WebGLHero />
+        {isHeroVisible && <WebGLHero />}
       </section>
 
       <section
