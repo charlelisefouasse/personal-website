@@ -289,10 +289,10 @@ const WebGLHero = () => {
   return (
     <div
       ref={canvasRef}
-      className="w-full h-full bg-linear-to-b from-[#fcfbf9] to-slate-950 relative"
+      className="relative h-full w-full bg-linear-to-b from-[#fcfbf9] to-slate-950"
       id="canvas-container"
     >
-      <div className="absolute inset-0 z-10 pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 z-10">
         {/* Professional UI (Bottom-Right) */}
         <div className="absolute inset-0">
           <ProfessionalLayer hideImage={true} />

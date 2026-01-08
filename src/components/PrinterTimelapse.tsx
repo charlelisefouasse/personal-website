@@ -25,16 +25,16 @@ const PrinterTimelapse = ({
   return (
     <div
       ref={localRef}
-      className="relative h-[150vh] md:h-[300vh] w-full bg-slate-950 "
+      className="relative h-[150vh] w-full bg-slate-950 md:h-[300vh]"
     >
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden p-8 md:p-16">
+      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden p-8 md:p-16">
         <CreativeBackground />
 
-        <div className="relative w-full max-w-5xl aspect-square md:aspect-video flex items-center justify-center">
+        <div className="relative flex aspect-square w-full max-w-5xl items-center justify-center md:aspect-video">
           <img
             src="/printer_empty.png"
             alt="3D Printer Empty"
-            className="absolute inset-0 h-full object-contain z-0 rounded-3xl overflow-hidden m-auto"
+            className="absolute inset-0 z-0 m-auto h-full overflow-hidden rounded-3xl object-contain"
           />
           <motion.div
             style={{
@@ -43,12 +43,12 @@ const PrinterTimelapse = ({
                 (val) => `inset(${val} 0 0 0)`,
               ),
             }}
-            className="absolute inset-0 w-full h-full z-10"
+            className="absolute inset-0 z-10 h-full w-full"
           >
             <img
               src="/printer_finished.png"
               alt="3D Printer Finished"
-              className="h-full object-contain rounded-3xl m-auto"
+              className="m-auto h-full rounded-3xl object-contain"
             />
           </motion.div>
         </div>

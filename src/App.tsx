@@ -64,23 +64,21 @@ function App() {
   return (
     <div
       ref={containerRef}
-      className={`h-screen overflow-y-auto overflow-x-hidden scrollbar-hide
-        ${isSnapping ? "snap-mandatory snap-y scroll-snap-y" : ""} 
-      `}
+      className={`scrollbar-hide h-screen overflow-x-hidden overflow-y-auto ${isSnapping ? "scroll-snap-y snap-y snap-mandatory" : ""} `}
     >
-      <section className="h-screen w-full snap-start shrink-0">
+      <section className="h-screen w-full shrink-0 snap-start">
         <ProfessionalPage />
       </section>
 
       <section
         ref={heroRef}
-        className="relative h-screen w-full snap-start shrink-0 overflow-hidden bg-[#fcfbf9]"
+        className="relative h-screen w-full shrink-0 snap-start overflow-hidden bg-[#fcfbf9]"
       >
         {isHeroVisible && <WebGLHero />}
       </section>
 
       <section
-        className="w-full shrink-0 bg-slate-950 snap-start"
+        className="w-full shrink-0 snap-start bg-slate-950"
         ref={creativeSectionRef}
       >
         <CreativePage />

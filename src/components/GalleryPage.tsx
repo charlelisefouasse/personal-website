@@ -47,29 +47,29 @@ const GalleryPage = ({
       style={{ height: scrollRange }}
       className="relative w-full bg-slate-950"
     >
-      <div className="sticky top-0 left-0 right-0 h-screen overflow-hidden flex items-center">
+      <div className="sticky top-0 right-0 left-0 flex h-screen items-center overflow-hidden">
         <CreativeBackground />
 
         <motion.section
           ref={scrollRef}
           style={{ x: spring }}
-          className="relative flex items-center px-[5vw] gap-[5vw] w-max z-10"
+          className="relative z-10 flex w-max items-center gap-[5vw] px-[5vw]"
         >
           {/* Spacer to center the first image initially */}
-          <div className="shrink-0 w-[20vw] md:w-[calc(50vw-200px)] h-1" />
+          <div className="h-1 w-[20vw] shrink-0 md:w-[calc(50vw-200px)]" />
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
-              className="relative shrink-0 w-[60vw] md:w-[400px] aspect-3/4 bg-gray-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl group"
+              className="group relative aspect-3/4 w-[60vw] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-gray-900 shadow-2xl md:w-[400px]"
             >
               <img
                 src="/creative.png"
                 alt={`Gallery ${i + 1}`}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
               />
             </div>
           ))}
-          <div className="shrink-0 w-[15vw] md:w-[calc(50vw-200px)] h-1" />
+          <div className="h-1 w-[15vw] shrink-0 md:w-[calc(50vw-200px)]" />
         </motion.section>
       </div>
     </div>
