@@ -49,7 +49,7 @@ const PrinterTimelapse = () => {
         <img
           src="/printer_empty.png"
           alt="3D Printer Empty"
-          className="absolute inset-0 z-0 m-auto h-full overflow-hidden rounded-3xl object-contain"
+          className="absolute inset-0 z-0 m-auto h-full overflow-hidden rounded-3xl object-contain shadow-2xl"
         />
 
         {/* Finished Printer (Foreground Layer with ClipPath) */}
@@ -61,7 +61,7 @@ const PrinterTimelapse = () => {
           <img
             src="/printer_finished.png"
             alt="3D Printer Finished"
-            className="m-auto h-full rounded-3xl object-contain"
+            className="m-auto h-full rounded-3xl object-contain shadow-2xl"
           />
         </div>
       </div>

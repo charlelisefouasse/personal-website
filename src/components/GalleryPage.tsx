@@ -54,7 +54,7 @@ const GalleryPage = () => {
             ref={(el) => {
               cardsRef.current[i] = el;
             }}
-            className="group relative aspect-3/4 w-[60vw] shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-gray-900 shadow-2xl md:w-[400px]"
+            className="group relative aspect-3/4 w-[60vw] shrink-0 overflow-hidden rounded-3xl border border-purple-400/10 shadow-2xl md:w-[400px]"
           >
             <img
               src="/creative.png"

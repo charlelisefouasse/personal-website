@@ -77,7 +77,7 @@ function App() {
 
   return (
     <div className="min-h-screen w-full bg-slate-950 text-white">
-      <section className="snap-section h-svh w-full shrink-0">
+      <section className="snap-section h-svh w-full shrink-0 bg-[#fcfbf9]">
         <ProfessionalPage />
       </section>
 
