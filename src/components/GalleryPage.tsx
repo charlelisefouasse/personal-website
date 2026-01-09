@@ -57,7 +57,7 @@ const GalleryPage = () => {
             className="group relative aspect-3/4 w-[60vw] shrink-0 overflow-hidden rounded-3xl border border-purple-400/10 shadow-2xl md:w-[400px]"
           >
             <img
-              src="/creative.png"
+              src={`/cosplays/${i + 1}.webp`}
               alt={`Gallery ${i + 1}`}
               className="h-full w-full object-cover"
             />

@@ -18,9 +18,9 @@ const CreativeLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
       <div className="relative flex flex-1 flex-col items-center justify-center">
         {/* Centered Image - must match ProfessionalLayer exactly in size/pos */}
         {!hideImage && (
-          <div className="group aspect-16/10 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-gray-900 shadow-[0_0_80px_rgba(0,180,255,0.1)]">
+          <div className="group aspect-square w-full max-w-3xl overflow-hidden rounded-3xl border border-white/10 bg-gray-900 shadow-[0_0_80px_rgba(0,180,255,0.1)] 2xl:max-w-4xl">
             <img
-              src="/creative.png"
+              src="/cosplay.jpg"
               alt="Creative"
               className="h-full w-full object-cover"
             />

@@ -6,6 +6,11 @@ import CreativeLayer from "./CreativeLayer";
 const WebGLHero = () => {
   const canvasRef = useRef<HTMLDivElement>(null);
 
+  const lastMouseTime = useRef<number>(0);
+  const blobStrength = useRef<number>(0);
+  const targetMouse = useRef<[number, number]>([0.5, 0.5]);
+  const currentMouse = useRef<[number, number]>([0.5, 0.5]);
+
   const vs = `
         precision mediump float;
 
@@ -32,6 +37,7 @@ const WebGLHero = () => {
         uniform vec2 uMouse;
         uniform float uResolutionWidth;
         uniform float uResolutionHeight;
+        uniform float uBlobStrength;
 
         uniform sampler2D chaosTexture;
         uniform sampler2D proTexture;
@@ -64,6 +70,12 @@ const WebGLHero = () => {
           return 130.0 * dot(m, q);
         }
 
+        // Smooth Minimum for Liquid Melt
+        float smin(float a, float b, float k) {
+            float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
+            return mix(b, a, h) - k * h * (1.0 - h);
+        }
+
         // Rounded box SDF
         float sdRoundedBox(vec2 p, vec2 b, float r) {
             vec2 q = abs(p) - b + r;
@@ -71,11 +83,16 @@ const WebGLHero = () => {
         }
 
         vec4 getLayerColor(sampler2D tex, vec2 uv, vec4 bgColor, float resW, float resH, bool isChaos) {
-            float imgAspect = 1.6; // 16/10
+            float imgAspect = 1.0; // square
             float planeAspect = resW / resH;
             
             // Responsive width: larger on desktop than before, but still contained
-            float scale = resW > 1024.0 ? 850.0 / resW : 0.85;
+            float scale = 0.85; // Mobile default
+            if (resW > 2000.0) {
+                scale = 1350.0 / resW; // Wide screens (2K+) -> max-w-4xl approx
+            } else if (resW > 1024.0) {
+                scale = 1100.0 / resW; // Desktop standard
+            }
             
             vec2 size;
             if (planeAspect > imgAspect) {
@@ -128,11 +145,7 @@ const WebGLHero = () => {
                 
                 // Box-aware distance for non-square blobs? 
                 // Using simple distance for now as CSS rounded-full on rectangle makes an oval.
-                // Actually rounded-full on 400x500 makes an oval.
-                // We'll use an elliptical distance correction if needed, but simple distance 
-                // to center usually is fine for soft blurs. 
-                // Let's refine: The CSS is a DIV with bg-color and rounded-full.
-                // 400x500 rounded-full IS an ellipse.
+                // Actually rounded-full on 400x500 rounded-full IS an ellipse.
                 // So we should normalize the distance by the radius dimensions.
                 
                 vec2 diff1 = (currentPixel - center1);
@@ -185,28 +198,95 @@ const WebGLHero = () => {
             float dist = distance(uv, uMouse);
             float ripple = snoise(uv * 10.0 + uTime * 0.5) * 0.02 * exp(-dist * 10.0);
             
-            // Diagonal split formula
-            float split = (uv.x + uv.y) - 1.0;
+            // Diagonal split SDF approximation
+            // Desktop: (x + y) - 1.0. 
+            // Mobile: Pin away from corners.
             
-            // Calc edge damping: 0 at top/bottom, 1 in middle
-            // This ensures the liquid effect fades out at the scroll boundaries
+            float splitVal = 0.0;
+            if (uResolutionWidth < 768.0) {
+                // Mobile: 0.7x + y - 0.85
+                // Passes through (0, 0.85) and (1, 0.15) roughly
+                splitVal = (0.6 * uv.x + uv.y) - 0.80;
+            } else {
+                // Desktop: Corner to Corner
+                splitVal = (uv.x + uv.y) - 1.0;
+            }
+            
+            // Calc edge damping for distortion
             float edgeDamp = smoothstep(0.0, 0.15, uv.y) * smoothstep(1.0, 0.85, uv.y);
             
-            // Distortion
-            float noise = snoise(uv * 3.0 + uTime * 0.2) * 0.05;
+            // Correct Aspect Ratio for Noise
+            // Mobile (Aspect < 1): uv.y is long. If we treat 0..1 as square, we get stretched noise.
+            // We want "Round" noise.
+            // Also, we want enough vertical repetitions on mobile.
+            float aspect = uResolutionWidth / uResolutionHeight;
+            
+            vec2 noiseUV = uv;
+            float noiseFreq = 3.0; // Base frequency
+            float noise = 1.0;
+            
+            if (aspect < 1.0) {
+               
+                 noiseUV.y /= aspect; 
+                 // Decrease base freq slightly so it's not TOO busy, since we expanded space
+                 noiseFreq = 1.5; 
+                 noise = snoise(noiseUV * noiseFreq + uTime * 0.2) * 0.08;
+            } else {
+
+                 noiseFreq = 3.0; // Keep desktop feel
+                 noise = snoise(noiseUV * noiseFreq + uTime * 0.2) * 0.05;
+            }
+            
+           
             float distortion = (noise + ripple) * edgeDamp;
             
-            // Final mask
-            float mask = smoothstep(-0.01, 0.01, split + distortion);
+            // Distances for Liquid Merge
+            // 1. Split Distance
+
+            float dSplit = splitVal + distortion +0.02;
             
-            vec4 chaosBg = vec4(0.008, 0.024, 0.094, 1.0); // Slate-950 (#020618)
+            // 2. Blob Distance
+            // Normalize mouse position to aspect ratio
+            vec2 aspectVec = vec2(aspect, 1.0);
+            if (aspect < 1.0) aspectVec = vec2(1.0, 1.0/aspect); // Consistent logic
+            
+            float blobDist = distance(uv * aspectVec, uMouse * aspectVec);
+            
+            // Dynamic blob noise - Reduced for rounder shape
+            float blobNoise = snoise(uv * 3.0 + uTime * 1.0) * 0.01;
+            
+            // If strength is 0, make radius negative so it disappears
+            // Base radius ~15% + noise. 
+            // We want d < 0 inside blob. d = dist - radius.
+            float currentRadius = (0.1 + blobNoise) * uBlobStrength;
+            
+            // If strength is 0, d must be massive positive. 
+            // If we just make radius 0, d is positive but near 0 at mouse.
+            // We want it to vanish.
+            // Let's bias the distance field itself.
+            float dBlob = blobDist - currentRadius;
+            
+            // Use Smooth Minimum to merge the "holes"
+            // We want to combine the NEGATIVE regions (where d < 0).
+            // So we want min(dSplit, dBlob).
+            // smin(a, b, k) blends them.
+            float k = 0.2; // Smoothness factor (Higher = gloopier merge)
+            float dFinal = smin(dSplit, dBlob, k);
+            
+            // Final Mask: 0.0 inside liquid (Top-Left or Blob), 1.0 outside (Bottom-Right)
+            float mask = smoothstep(-0.01, 0.01, dFinal);
+            
             vec4 proBg = vec4(0.988, 0.984, 0.976, 1.0); // White
-            
-            vec4 chaosColor = getLayerColor(chaosTexture, uv, chaosBg, uResolutionWidth, uResolutionHeight, true);
             vec4 proColor = getLayerColor(proTexture, uv, proBg, uResolutionWidth, uResolutionHeight, false);
-            
-            
-            gl_FragColor = mix(chaosColor, proColor, mask);
+
+            // Optimization: If mask is > 0.99, we are fully in pro side. Skip chaos calc.
+            if (mask > 0.99) {
+                gl_FragColor = proColor;
+            } else {
+                vec4 chaosBg = vec4(0.008, 0.024, 0.094, 1.0); // Slate-950 (#020618)
+                vec4 chaosColor = getLayerColor(chaosTexture, uv, chaosBg, uResolutionWidth, uResolutionHeight, true);
+                gl_FragColor = mix(chaosColor, proColor, mask);
+            }
         }
     `;
 
@@ -231,8 +311,8 @@ const WebGLHero = () => {
       const params = {
         vertexShader: vs,
         fragmentShader: fs,
-        widthSegments: 20,
-        heightSegments: 20,
+        widthSegments: 40,
+        heightSegments: 40,
         uniforms: {
           uTime: { name: "uTime", type: "1f", value: 0 },
           uMouse: { name: "uMouse", type: "2f", value: [0.5, 0.5] },
@@ -246,6 +326,7 @@ const WebGLHero = () => {
             type: "1f",
             value: rect.height || window.innerHeight,
           },
+          uBlobStrength: { name: "uBlobStrength", type: "1f", value: 0 },
         },
       };
 
@@ -253,14 +334,46 @@ const WebGLHero = () => {
 
       plane.onRender(() => {
         plane.uniforms.uTime.value = Number(plane.uniforms.uTime.value) + 0.01;
+
+        // Idle detection logic
+        const timeNow = Date.now();
+        const timeSinceMove = timeNow - lastMouseTime.current;
+        const isIdle = timeSinceMove > 1000;
+
+        const targetStrength = isIdle ? 0.0 : 1.0;
+        const speed = 0.05;
+
+        blobStrength.current += (targetStrength - blobStrength.current) * speed;
+
+        // Clean clamp
+        if (blobStrength.current < 0.001) blobStrength.current = 0;
+        if (blobStrength.current > 0.999) blobStrength.current = 1;
+
+        plane.uniforms.uBlobStrength.value = blobStrength.current;
+
+        // Mouse Lerp for "Drag" effect
+        // 0.1 = very heavy drag, 0.2 = medium drag
+        const lerpSpeed = 0.12;
+        currentMouse.current[0] +=
+          (targetMouse.current[0] - currentMouse.current[0]) * lerpSpeed;
+        currentMouse.current[1] +=
+          (targetMouse.current[1] - currentMouse.current[1]) * lerpSpeed;
+
+        plane.uniforms.uMouse.value = currentMouse.current;
       });
 
       const handleMouseMove = (e: MouseEvent) => {
+        // Disable on touch devices (though mousemove rarely fires there, being explicit is safer)
+        if ("ontouchstart" in window || navigator.maxTouchPoints > 0) return;
+
+        lastMouseTime.current = Date.now();
+
         const r = container.getBoundingClientRect();
         if (r.width > 0 && r.height > 0) {
           const x = (e.clientX - r.left) / r.width;
-          const y = (e.clientY - r.top) / r.height;
-          plane.uniforms.uMouse.value = [x, y];
+          // Invert Y because WebGL 0,0 is usually bottom-left, but DOM is top-left
+          const y = 1.0 - (e.clientY - r.top) / r.height;
+          targetMouse.current = [x, y];
         }
       };
 
@@ -306,13 +419,13 @@ const WebGLHero = () => {
 
       {/* Hidden images for WebGL textures */}
       <img
-        src="/creative.png"
+        src="/cosplay.jpg"
         data-sampler="chaosTexture"
         alt=""
         style={{ display: "none" }}
       />
       <img
-        src="/professional.png"
+        src="/normal.jpg"
         data-sampler="proTexture"
         alt=""
         style={{ display: "none" }}
