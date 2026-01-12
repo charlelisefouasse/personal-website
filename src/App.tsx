@@ -10,6 +10,7 @@ import WebGLHero from "./components/hero/WebGLHero";
 import GalleryPage from "./components/GalleryPage";
 import PrinterTimelapse from "./components/PrinterTimelapse";
 import Loader3D from "./components/Loader3D";
+import ProjectsPage from "./components/ProjectsPage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,7 +36,11 @@ function App() {
     });
 
     const sections = document.querySelectorAll<HTMLElement>(".snap-section");
-    sections.forEach((section) => snap.addElement(section));
+    sections.forEach((section) => {
+      snap.addElement(section, {
+        align: section.classList.contains("snap-end") ? "end" : "start",
+      });
+    });
 
     lenis.on("scroll", ScrollTrigger.update);
 
@@ -75,7 +80,8 @@ function App() {
         <Loader3D ready={isHeroReady} onComplete={() => setShowLoader(false)} />
       )}
 
-      <section className="snap-section bg-pro-bg h-svh w-full shrink-0">
+      <section className="snap-section bg-pro-bg w-full shrink-0 snap-end">
+        <ProjectsPage />
         <ProfessionalPage />
       </section>
 

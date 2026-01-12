@@ -119,7 +119,8 @@ vec4 getProBg(vec2 uv, float resW, float resH) {
     
     // Grid logic using fract for efficiency
     vec2 gridPx = vec2(uv.x * resW, (1.0 - uv.y) * resH);
-    vec2 gridUV = fract(gridPx / gridSize); // 0.0 to 1.0 inside every cell
+    vec2 center = vec2(resW, resH) * 0.5;
+    vec2 gridUV = fract((gridPx - center) / gridSize + 0.5); // Centered grid
     
     // Check edges (stroke width ~1px)
     vec2 gridCheck = step(1.0 / gridSize, gridUV); 
