@@ -77,13 +77,13 @@ function App() {
 
   return (
     <div className="min-h-screen w-full bg-slate-950 text-white">
-      <section className="snap-section h-svh w-full shrink-0 bg-[#fcfbf9]">
+      <section className="snap-section bg-pro-bg h-svh w-full shrink-0">
         <ProfessionalPage />
       </section>
 
       <section
         ref={heroRef}
-        className="snap-section relative h-svh w-full shrink-0 overflow-hidden bg-[#fcfbf9]"
+        className="snap-section bg-pro-bg relative h-svh w-full shrink-0 overflow-hidden"
       >
         {isHeroVisible && <WebGLHero />}
       </section>

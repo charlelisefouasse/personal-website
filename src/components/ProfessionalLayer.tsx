@@ -11,7 +11,7 @@ const ProfessionalLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
       <div className="relative flex flex-1 flex-col items-center justify-center">
         {/* Centered Image */}
         {!hideImage && (
-          <div className="aspect-square w-full max-w-3xl overflow-hidden rounded-3xl border border-white bg-gray-100 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] 2xl:max-w-4xl">
+          <div className="aspect-square w-[85%] max-w-none overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] min-[2000px]:w-[calc(1350px*100vh/100vw)] lg:w-[calc(1100px*100vh/100vw)]">
             <img
               src="/normal.jpg"
               alt="Professional"
@@ -21,8 +21,8 @@ const ProfessionalLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
         )}
 
         <div className="absolute top-0 right-0 flex max-w-lg items-start gap-4 text-right">
-          <h2 className="text-2xl leading-[0.9] font-black text-gray-400 sm:text-3xl md:text-5xl">
-            <span className="text-4xl text-gray-900 sm:text-5xl md:text-7xl">
+          <h2 className="font-orbitron text-2xl leading-[0.9] font-black text-gray-400 md:text-4xl">
+            <span className="text-3xl text-gray-900 sm:text-xl md:text-6xl">
               FRONT-END
             </span>
             <br />

@@ -82,16 +82,16 @@ const WebGLHero = () => {
             return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
         }
 
-        vec4 getLayerColor(sampler2D tex, vec2 uv, vec4 bgColor, float resW, float resH, bool isChaos) {
+        vec4 getLayerColor(sampler2D tex, vec2 uv, vec4 bgColor, float resW, float resH, bool isChaos, float radiusPx) {
             float imgAspect = 1.0; // square
             float planeAspect = resW / resH;
             
-            // Responsive width: larger on desktop than before, but still contained
+            // Responsive width
             float scale = 0.85; // Mobile default
             if (resW > 2000.0) {
-                scale = 1350.0 / resW; // Wide screens (2K+) -> max-w-4xl approx
+                scale = 1350.0 / resW;
             } else if (resW > 1024.0) {
-                scale = 1100.0 / resW; // Desktop standard
+                scale = 1100.0 / resW;
             }
             
             vec2 size;
@@ -101,15 +101,28 @@ const WebGLHero = () => {
                 size = vec2(1.0, planeAspect / imgAspect) * scale;
             }
             
+            // Offset calculation still in UV space for texture sampling
             vec2 offset = (1.0 - size) * 0.5;
             vec2 imgUV = (uv - offset) / size;
             
-            // Rounded corners logic (24px)
-            float radius = 24.0 / max(resW, resH); 
-            vec2 p = uv - 0.5;
-            vec2 b = size * 0.5;
-            float d = sdRoundedBox(p, b - radius, radius);
-            float edge = 1.0 - smoothstep(-0.001, 0.001, d);
+            // SDF in Pixel Space for uniform rounded corners
+            vec2 pPixels = (uv - 0.5) * vec2(resW, resH);
+            vec2 bPixels = (size * 0.5) * vec2(resW, resH);
+            
+            // Subtract radius from box size for "inner" radius, or keep it standard?
+            // Standard rounded box: sdRoundedBox(p, b, r) where b is half-bounds.
+            // If we want the box to be EXACTLY bPixels size, we use bPixels - radius.
+            // If radius is 0, we can just pass 0.
+            
+            // Safe clamp for radius
+            float r = min(radiusPx, min(bPixels.x, bPixels.y));
+            
+            // Pass bPixels directly. The SDF logic rounds "inward" from the box corners,
+            // so the bounding box remains 2*bPixels.
+            float d = sdRoundedBox(pPixels, bPixels, r);
+            
+            // Soft edge (AA) - 1.0 pixel blur
+            float edge = 1.0 - smoothstep(-1.0, 1.0, d);
             
             // Final background for this layer
             vec4 finalBg = bgColor;
@@ -181,6 +194,16 @@ const WebGLHero = () => {
                 // Opacity 30% -> 0.3 intensity
                 finalBg.rgb += vec3(0.145, 0.388, 0.922) * val1 * 0.3; 
                 finalBg.rgb += vec3(0.576, 0.200, 0.918) * val2 * 0.3;
+                
+                // Neon Glow (Purple) around the image
+                // d is distance from box edge. d > 0 is outside.
+                if (d > -1.0) {
+                    float glowDist = max(0.0, d);
+                    // Exponential falloff for neon look. 0.02 controls spread (smaller = wider).
+                    float glowIntensity = exp(-glowDist * 0.02) * 0.3; 
+                    vec3 glowColor = vec3(0.7, 0.2, 1.0); // Bright Purple
+                    finalBg.rgb += glowColor * glowIntensity;
+                }
             }
             
             vec4 texColor = texture2D(tex, imgUV);
@@ -276,15 +299,28 @@ const WebGLHero = () => {
             // Final Mask: 0.0 inside liquid (Top-Left or Blob), 1.0 outside (Bottom-Right)
             float mask = smoothstep(-0.01, 0.01, dFinal);
             
-            vec4 proBg = vec4(0.988, 0.984, 0.976, 1.0); // White
-            vec4 proColor = getLayerColor(proTexture, uv, proBg, uResolutionWidth, uResolutionHeight, false);
+            vec4 baseProBg = vec4(0.988, 0.984, 0.976, 1.0); // #fcfbf9
+            
+            // Grid Pattern (Gray 200)
+            vec3 gridColor = vec3(0.898, 0.906, 0.922);
+            float gridSize = (uResolutionWidth < 768.0) ? 70.0 : 140.0;
+            
+            // Align grid to top-left (CSS standard)
+            vec2 gridPx = vec2(uv.x * uResolutionWidth, (1.0 - uv.y) * uResolutionHeight);
+            
+            // Logic: mod(coord, 60) < 1.0 -> Grid Line
+            vec2 gridCheck = step(vec2(1.0), mod(gridPx, gridSize)); 
+            float isGrid = 1.0 - min(gridCheck.x, gridCheck.y); 
+            
+            vec4 proBg = vec4(mix(baseProBg.rgb, gridColor, isGrid), 1.0);
+            vec4 proColor = getLayerColor(proTexture, uv, proBg, uResolutionWidth, uResolutionHeight, false, 0.0);
 
             // Optimization: If mask is > 0.99, we are fully in pro side. Skip chaos calc.
             if (mask > 0.99) {
                 gl_FragColor = proColor;
             } else {
                 vec4 chaosBg = vec4(0.008, 0.024, 0.094, 1.0); // Slate-950 (#020618)
-                vec4 chaosColor = getLayerColor(chaosTexture, uv, chaosBg, uResolutionWidth, uResolutionHeight, true);
+                vec4 chaosColor = getLayerColor(chaosTexture, uv, chaosBg, uResolutionWidth, uResolutionHeight, true, 24.0);
                 gl_FragColor = mix(chaosColor, proColor, mask);
             }
         }

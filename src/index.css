@@ -1,8 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
 @import "tailwindcss";
 
 @theme {
   --color-brand-primary: #000000;
   --color-brand-secondary: #ffffff;
+  --font-bowlby: "Bowlby One SC", Inter, sans-serif;
+  --font-orbitron: "Orbitron", Inter, sans-serif;
+  --color-pro-bg: #fcfbf9;
+  --color-grid-line: #e5e7eb;
+
+  --background-image-grid-pattern:
+    linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
+}
+
+@utility bg-grid {
+  background-color: var(--color-pro-bg);
+  background-image: var(--background-image-grid-pattern);
+  background-size: 70px 70px;
+  @media (width >= theme(--breakpoint-md)) {
+    background-size: 140px 140px;
+  }
 }
 
 :root {

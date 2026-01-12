@@ -7,8 +7,8 @@ const CreativePage = () => {
 
       <div className="flex flex-1 flex-col items-center justify-center">
         <div className="flex max-w-4xl flex-col items-center gap-12 text-center">
-          <h2 className="bg-linear-to-br from-cyan-400 via-purple-600 to-blue-500 bg-clip-text text-center text-8xl leading-none font-black text-transparent opacity-80 md:text-[12rem]">
-            TOTAL <br /> CHAOS.
+          <h2 className="font-bowlby bg-linear-to-br from-cyan-400 via-purple-600 to-blue-500 bg-clip-text text-center text-7xl leading-none font-black text-transparent opacity-80 md:text-[12rem]">
+            TOTAL <br /> CHAOS
           </h2>
           <img
             src="/cutter.png"
