@@ -9,6 +9,7 @@ import ProfessionalPage from "./components/ProfessionalPage";
 import WebGLHero from "./components/hero/WebGLHero";
 import GalleryPage from "./components/GalleryPage";
 import PrinterTimelapse from "./components/PrinterTimelapse";
+import Loader3D from "./components/Loader3D";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,8 @@ function App() {
   const heroRef = useRef<HTMLDivElement>(null);
 
   const [isHeroVisible, setIsHeroVisible] = useState(true);
+  const [isHeroReady, setIsHeroReady] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -78,6 +81,10 @@ function App() {
 
   return (
     <div className="min-h-screen w-full bg-slate-950 text-white">
+      {showLoader && (
+        <Loader3D ready={isHeroReady} onComplete={() => setShowLoader(false)} />
+      )}
+
       <section className="snap-section bg-pro-bg h-svh w-full shrink-0">
         <ProfessionalPage />
       </section>
@@ -86,7 +93,7 @@ function App() {
         ref={heroRef}
         className="snap-section bg-pro-bg relative h-svh w-full shrink-0 overflow-hidden"
       >
-        {isHeroVisible && <WebGLHero />}
+        {isHeroVisible && <WebGLHero onReady={() => setIsHeroReady(true)} />}
       </section>
 
       <section className="snap-section w-full shrink-0 bg-slate-950">
