@@ -16,7 +16,6 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const heroRef = useRef<HTMLDivElement>(null);
 
-  const [isHeroVisible, setIsHeroVisible] = useState(true);
   const [isHeroReady, setIsHeroReady] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
 
@@ -53,6 +52,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
     const hero = heroRef.current;
     if (!hero) return;
 
@@ -64,19 +67,6 @@ function App() {
         behavior: "instant",
       });
     }, 10);
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsHeroVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0,
-        rootMargin: "50% 0px 50% 0px",
-      },
-    );
-
-    observer.observe(hero);
-    return () => observer.disconnect();
   }, []);
 
   return (
@@ -93,7 +83,7 @@ function App() {
         ref={heroRef}
         className="snap-section bg-pro-bg relative h-svh w-full shrink-0 overflow-hidden"
       >
-        {isHeroVisible && <WebGLHero onReady={() => setIsHeroReady(true)} />}
+        <WebGLHero onReady={() => setIsHeroReady(true)} />
       </section>
 
       <section className="snap-section w-full shrink-0 bg-slate-950">
