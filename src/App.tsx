@@ -6,7 +6,7 @@ import Snap from "lenis/snap";
 
 import CreativePage from "./components/CreativePage";
 import ProfessionalPage from "./components/ProfessionalPage";
-import WebGLHero from "./components/WebGLHero";
+import WebGLHero from "./components/hero/WebGLHero";
 import GalleryPage from "./components/GalleryPage";
 import PrinterTimelapse from "./components/PrinterTimelapse";
 
@@ -68,6 +68,7 @@ function App() {
       },
       {
         threshold: 0,
+        rootMargin: "50% 0px 50% 0px",
       },
     );
 

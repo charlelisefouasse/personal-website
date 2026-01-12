@@ -11,20 +11,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/drei": "10.7.7",
+    "@react-three/fiber": "9.5.0",
     "@tailwindcss/vite": "4.1.18",
     "@types/gsap": "1.20.2",
-    "curtainsjs": "8.1.6",
+    "@types/three": "0.182.0",
     "framer-motion": "12.24.7",
     "gsap": "3.14.2",
     "lenis": "1.3.17",
     "lucide-react": "0.562.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "tailwindcss": "4.1.18"
+    "tailwindcss": "4.1.18",
+    "three": "0.182.0"
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",
-    "@types/curtainsjs": "8.1.3",
     "@types/node": "25.0.3",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
