@@ -55,6 +55,26 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (isHeroReady) {
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+
+      const hero = heroRef.current;
+      if (!hero) return;
+
+      const target = hero.offsetTop;
+
+      setTimeout(() => {
+        window.scrollTo({
+          top: target,
+          behavior: "instant",
+        });
+      }, 10);
+    }
+  }, [isHeroReady]);
+
+  useEffect(() => {
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }

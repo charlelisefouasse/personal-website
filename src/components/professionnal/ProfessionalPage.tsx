@@ -61,7 +61,7 @@ const ProfessionalPage = () => {
     <div className="bg-grid relative flex h-svh w-full flex-col justify-center overflow-hidden p-4 py-8 text-gray-800 md:p-8">
       <Tabs
         defaultValue="about"
-        className="font-geist-mono relative flex min-h-2/3 w-full max-w-5xl flex-col self-center rounded-xl border border-neutral-600 bg-[#333333] shadow-sm lg:h-180 lg:min-h-auto lg:shadow-2xl"
+        className="font-geist-mono relative flex min-h-2/3 w-full max-w-5xl flex-col self-center overflow-hidden rounded-xl border border-neutral-600 bg-[#333333] shadow-sm lg:h-180 lg:min-h-auto lg:shadow-2xl"
       >
         {/* Terminal Header */}
         <div className="flex items-center justify-between bg-neutral-800 px-4 py-2 text-sm text-gray-300">
