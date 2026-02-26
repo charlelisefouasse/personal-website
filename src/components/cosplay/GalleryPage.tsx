@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import CreativeBackground from "./CreativeBackground";
+import CreativeBackground from "@/components/cosplay/CreativeBackground";
 
 gsap.registerPlugin(ScrollTrigger);
 

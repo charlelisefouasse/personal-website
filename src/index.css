@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -7,11 +8,24 @@
   --color-brand-secondary: #ffffff;
   --font-bowlby: "Bowlby One SC", Inter, sans-serif;
   --font-orbitron: "Orbitron", Inter, sans-serif;
+  --font-geist-mono: "Geist Mono", monospace;
   --color-pro-bg: #fcfbf9;
 
   --background-image-grid-pattern:
     linear-gradient(to right, var(--color-gray-200) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-gray-200) 1px, transparent 1px);
+
+  --animate-blink: blink 1s step-end infinite;
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
 }
 
 @utility bg-grid {

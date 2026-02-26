@@ -1,4 +1,4 @@
-import CreativeBackground from "./CreativeBackground";
+import CreativeBackground from "@/components/cosplay/CreativeBackground";
 
 const CreativePage = () => {
   return (

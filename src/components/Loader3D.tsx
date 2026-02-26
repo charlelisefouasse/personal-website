@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import CreativeBackground from "./CreativeBackground";
+import CreativeBackground from "@/components/cosplay/CreativeBackground";
 
 interface LoaderProps {
   ready: boolean;

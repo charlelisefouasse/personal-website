@@ -3,14 +3,12 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import Snap from "lenis/snap";
-
-import CreativePage from "./components/CreativePage";
-import ProfessionalPage from "./components/ProfessionalPage";
-import WebGLHero from "./components/hero/WebGLHero";
-import GalleryPage from "./components/GalleryPage";
-import PrinterTimelapse from "./components/PrinterTimelapse";
-import Loader3D from "./components/Loader3D";
-import ProjectsPage from "./components/ProjectsPage";
+import Loader3D from "@/components/Loader3D";
+import ProfessionalPage from "@/components/professionnal/ProfessionalPage";
+import WebGLHero from "@/components/hero/WebGLHero";
+import CreativePage from "@/components/cosplay/CreativePage";
+import GalleryPage from "@/components/cosplay/GalleryPage";
+import PrinterTimelapse from "@/components/cosplay/PrinterTimelapse";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -75,13 +73,12 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-slate-950 text-white">
+    <div className="min-h-screen w-full bg-slate-950 text-white antialiased">
       {showLoader && (
         <Loader3D ready={isHeroReady} onComplete={() => setShowLoader(false)} />
       )}
 
       <section className="snap-section bg-pro-bg w-full shrink-0 snap-end">
-        <ProjectsPage />
         <ProfessionalPage />
       </section>
 
