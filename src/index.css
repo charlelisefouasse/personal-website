@@ -16,6 +16,7 @@
     linear-gradient(to bottom, var(--color-gray-200) 1px, transparent 1px);
 
   --animate-blink: blink 1s step-end infinite;
+  --animate-text-gradient: text-gradient 4s ease infinite;
 
   @keyframes blink {
     0%,
@@ -24,6 +25,18 @@
     }
     50% {
       opacity: 0;
+    }
+  }
+
+  @keyframes text-gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
     }
   }
 }
