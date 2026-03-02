@@ -97,10 +97,10 @@ const ProfessionalPage = () => {
         </TabsList>
 
         {/* Terminal Body */}
-        <div className="flex flex-col overflow-y-auto p-2 text-left text-sm md:max-h-[60vh] md:p-4 md:text-lg">
+        <div className="flex flex-col overflow-y-auto p-2 text-left text-sm md:p-4 md:text-lg">
           <TabsContent
             value="about"
-            className="flex flex-col gap-6 outline-none"
+            className="flex flex-col gap-4 outline-none"
           >
             {/* Command 1: whoami */}
             <div className="flex flex-col gap-2">
@@ -181,7 +181,7 @@ const ProfessionalPage = () => {
 
           <TabsContent
             value="projects"
-            className="flex flex-col gap-6 outline-none"
+            className="flex flex-col gap-4 outline-none"
           >
             <div className="flex flex-col gap-2">
               <TerminalPrompt path="~/projects" command="ls" />
@@ -225,7 +225,7 @@ const ProfessionalPage = () => {
 
           <TabsContent
             value="articles"
-            className="flex flex-col gap-6 outline-none"
+            className="flex flex-col gap-4 outline-none"
           >
             <div className="flex flex-col gap-2">
               <TerminalPrompt path="~/articles" command="ls" />
