@@ -194,19 +194,22 @@ const ProfessionalPage = () => {
                     <a
                       target="_blank"
                       href={project.preview_link}
-                      className="flex flex-col gap-2 hover:opacity-80"
+                      className="flex items-start justify-between gap-2 hover:opacity-80"
                     >
-                      <h3 className="font-bold tracking-wider text-[#ad7fa8]">
-                        {project.title}
-                      </h3>
-                      <div className="text-xs md:text-sm">
-                        {project.description}
+                      <div>
+                        <h3 className="font-bold tracking-wider text-[#ad7fa8]">
+                          {project.title}
+                        </h3>
+                        <div className="text-xs md:text-sm">
+                          {project.description}
+                        </div>
                       </div>
+                      <ExternalLinkIcon className="mt-0.5 h-4 md:mt-1" />
                     </a>
                     <a
                       href={project.github_link}
                       target="_blank"
-                      className="flex w-fit items-center gap-1 text-[#729fcf] hover:underline"
+                      className="hover:underlin flex w-fit items-center gap-1 text-xs text-[#729fcf] md:text-sm"
                     >
                       <GithubIcon className="h-4" /> See on github{" "}
                       <ExternalLinkIcon className="mb-0.5 h-4" />
@@ -238,11 +241,12 @@ const ProfessionalPage = () => {
                     <a
                       target="_blank"
                       href={article.preview_link}
-                      className="flex flex-col gap-2 hover:opacity-80"
+                      className="flex gap-2 hover:opacity-80"
                     >
                       <h3 className="font-bold tracking-wider text-[#ad7fa8]">
                         {article.title}
                       </h3>
+                      <ExternalLinkIcon className="mt-0.5 h-4 md:mt-1" />
                     </a>
                   </div>
                 ))}
