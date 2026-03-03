@@ -20,9 +20,9 @@ const ProfessionalLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
           </div>
         )}
 
-        <div className="absolute top-0 right-0 flex max-w-lg items-start gap-4 text-right">
-          <h2 className="font-orbitron text-2xl leading-[0.9] font-black text-gray-400 md:text-4xl">
-            <span className="text-3xl text-gray-900 sm:text-xl md:text-6xl">
+        <div className="3xl:max-w-4xl absolute top-0 right-0 flex max-w-lg items-start gap-4 text-right">
+          <h2 className="font-orbitron 3xl:text-5xl text-2xl leading-[0.9] font-black text-gray-400 md:text-4xl">
+            <span className="3xl:text-8xl text-3xl text-gray-900 sm:text-xl md:text-6xl">
               FRONT-END
             </span>
             <br />

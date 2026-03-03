@@ -24,14 +24,14 @@ const CreativeLayer: React.FC<LayerProps> = ({ hideImage = false }) => {
           </div>
         )}
 
-        <div className="absolute bottom-0 left-0 flex max-w-lg items-end gap-4 text-left">
+        <div className="3xl:max-w-4xl absolute bottom-0 left-0 flex max-w-lg items-end gap-4 text-left">
           <div className="flex animate-bounce flex-col text-cyan-400">
             <ChevronDownIcon className="h-8 w-8 md:h-12 md:w-12" />
             <ChevronDownIcon className="h-8 w-8 md:h-12 md:w-12" />
             <ChevronDownIcon className="h-8 w-8 md:h-12 md:w-12" />
           </div>
-          <h2 className="text-2xl leading-[0.9] font-black text-white md:text-4xl">
-            <span className="font-bowlby bg-linear-to-br from-cyan-400 to-purple-600 bg-clip-text text-4xl text-transparent sm:text-5xl md:text-[80px]">
+          <h2 className="3xl:text-5xl text-2xl leading-[0.9] font-black text-white md:text-4xl">
+            <span className="3xl:text-8xl font-bowlby bg-linear-to-br from-cyan-400 to-purple-600 bg-clip-text text-4xl text-transparent sm:text-5xl md:text-[80px]">
               COSPLAY
             </span>
             <br />

@@ -18,6 +18,8 @@
   --animate-blink: blink 1s step-end infinite;
   --animate-text-gradient: text-gradient 4s ease infinite;
 
+  --breakpoint-3xl: 120rem;
+
   @keyframes blink {
     0%,
     100% {
