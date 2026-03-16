@@ -45,7 +45,7 @@ const StaticHero: React.FC<StaticHeroProps> = ({ onLoadAnimation }) => {
         <button
           type="button"
           onClick={onLoadAnimation}
-          className="mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-cyan-400 px-5 py-2 font-mono text-xs font-semibold text-slate-950 shadow-lg transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:bg-cyan-400/70 md:px-6 md:py-2.5 md:text-sm"
+          className="rounded-full bg-purple-600 px-5 py-2 font-mono text-xs font-semibold text-white shadow-lg transition hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-400/70 md:px-6 md:py-2.5 md:text-sm"
         >
           Reactivate animation
         </button>

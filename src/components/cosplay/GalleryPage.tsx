@@ -134,7 +134,7 @@ const GalleryPage = () => {
       <CreativeBackground />
 
       <div className="pointer-events-none absolute top-6 left-6 z-20 md:top-10 md:left-12">
-        <h1 className="font-bowlby animate-text-gradient animate-gradient-shift bg-linear-to-br from-cyan-400 via-purple-600 to-blue-400 bg-size-[300%_300%] bg-clip-text text-4xl leading-none text-transparent md:text-6xl">
+        <h1 className="font-bowlby animate-text-gradient animate-gradient-shift bg-linear-to-br from-cyan-400 via-purple-600 to-blue-400 bg-size-[300%_300%] bg-clip-text text-3xl leading-none text-transparent md:text-6xl">
           COSPLAY GALLERY
         </h1>
         <p className="mt-2 font-mono text-sm text-cyan-200/80 md:text-base">
