@@ -16,7 +16,72 @@ const PrinterTimelapse = () => {
 
       if (!wrapper || !finishedImage) return;
 
-      gsap.fromTo(
+      let st: ScrollTrigger | null = null;
+      let idleCall: gsap.core.Tween | null = null;
+      let autoTween: gsap.core.Tween | null = null;
+      let isAutoScrolling = false;
+      let inSection = false;
+
+      const stopAuto = () => {
+        if (idleCall) {
+          idleCall.kill();
+          idleCall = null;
+        }
+        if (autoTween) {
+          autoTween.kill();
+          autoTween = null;
+        }
+        isAutoScrolling = false;
+      };
+
+      const startAuto = () => {
+        if (!inSection) return;
+        if (!st) return;
+        if (autoTween) return;
+
+        const end = st.end;
+        const current = st.scroll();
+
+        // Nothing to autoplay if we're already at the end.
+        if (current >= end - 1) return;
+
+        const proxy = { y: current };
+        autoTween = gsap.to(proxy, {
+          y: end,
+          duration: 4,
+          ease: "none",
+          onStart: () => {
+            isAutoScrolling = true;
+          },
+          onUpdate: () => {
+            st?.scroll(proxy.y);
+          },
+          onInterrupt: () => {
+            isAutoScrolling = false;
+            autoTween = null;
+          },
+          onComplete: () => {
+            isAutoScrolling = false;
+            autoTween = null;
+          },
+        });
+      };
+
+      const scheduleAuto = () => {
+        if (!inSection) return;
+        if (autoTween) return;
+
+        if (idleCall) idleCall.kill();
+        idleCall = gsap.delayedCall(0.5, startAuto);
+      };
+
+      const onUserInteraction = () => {
+        if (isAutoScrolling) return;
+        stopAuto();
+        scheduleAuto();
+      };
+
+      const revealTween = gsap.fromTo(
         finishedImage,
         { clipPath: "inset(100% 0% 0% 0%)" },
         {
@@ -26,12 +91,63 @@ const PrinterTimelapse = () => {
             trigger: wrapper,
             pin: true,
             start: "top top",
-            end: () => (window.innerWidth > 1024 ? "+=200%" : "+=100%"),
+            end: () => (globalThis.innerWidth > 1024 ? "+=200%" : "+=100%"),
             scrub: true,
             invalidateOnRefresh: true,
+            onRefresh: (self) => {
+              st = self;
+            },
+            onEnter: () => {
+              inSection = true;
+              scheduleAuto();
+            },
+            onEnterBack: () => {
+              inSection = true;
+              scheduleAuto();
+            },
+            onLeave: () => {
+              inSection = false;
+              stopAuto();
+            },
+            onLeaveBack: () => {
+              inSection = false;
+              stopAuto();
+            },
           },
         },
       );
+
+      // If the section is already active on mount (e.g. refresh mid-page)
+      st = revealTween.scrollTrigger ?? null;
+      inSection = !!st?.isActive;
+      if (inSection) scheduleAuto();
+
+      globalThis.addEventListener("wheel", onUserInteraction, {
+        passive: true,
+      });
+      globalThis.addEventListener("touchstart", onUserInteraction, {
+        passive: true,
+      });
+      globalThis.addEventListener("touchmove", onUserInteraction, {
+        passive: true,
+      });
+      globalThis.addEventListener("pointerdown", onUserInteraction, {
+        passive: true,
+      });
+      globalThis.addEventListener("keydown", onUserInteraction);
+      globalThis.addEventListener("scroll", onUserInteraction, {
+        passive: true,
+      });
+
+      return () => {
+        stopAuto();
+        globalThis.removeEventListener("wheel", onUserInteraction);
+        globalThis.removeEventListener("touchstart", onUserInteraction);
+        globalThis.removeEventListener("touchmove", onUserInteraction);
+        globalThis.removeEventListener("pointerdown", onUserInteraction);
+        globalThis.removeEventListener("keydown", onUserInteraction);
+        globalThis.removeEventListener("scroll", onUserInteraction);
+      };
     }, wrapperRef);
 
     return () => ctx.revert();
@@ -55,12 +171,9 @@ const PrinterTimelapse = () => {
               hand. It&apos;s the perfect mix of precision and creativity:
               print, sand, prime, then bring it to life with color.
             </p>
-            <p className="mt-4 font-mono text-base text-pink-100/90 md:text-lg">
-              Scroll to reveal the finished print!
-            </p>
 
             <p className="mt-4 font-mono text-base text-pink-100/90 md:text-lg">
-              And adventure further to discover some figurines!
+              Adventure further to discover some figurines!
             </p>
           </div>
 
