@@ -153,7 +153,7 @@ const GalleryPage = () => {
             ref={(el) => {
               cardsRef.current[i] = el;
             }}
-            className="group relative aspect-3/4 w-[92vw] shrink-0 overflow-hidden rounded-xl border border-purple-400/10 shadow-2xl sm:w-[86vw] md:w-[400px] md:rounded-2xl"
+            className="group relative aspect-3/4 w-[92vw] shrink-0 overflow-hidden rounded-xl border-2 border-purple-400 shadow-[0_0_20px_rgba(179,51,255,0.6)] sm:w-[86vw] md:w-[400px] md:rounded-2xl"
           >
             <img
               src={`/cosplays/${i + 1}.webp`}

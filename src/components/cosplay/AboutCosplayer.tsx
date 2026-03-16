@@ -6,7 +6,7 @@ const AboutCosplayer = () => {
     <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-6 py-20 md:px-20">
       <CreativeBackground />
 
-      <div className="b relative z-10 mx-auto flex max-w-4xl flex-col gap-6 rounded-3xl border border-purple-300/20 bg-slate-950/70 p-6 font-mono shadow-[0_0_80px_rgba(179,51,255,0.6)] md:p-10">
+      <div className="b relative z-10 mx-auto flex max-w-4xl flex-col gap-6 rounded-3xl border-2 border-purple-400 bg-slate-950/70 p-6 font-mono shadow-[0_0_80px_rgba(179,51,255,0.6)] md:p-10">
         <p className="text-sm tracking-[0.25em] text-purple-200/80 uppercase">
           About me
         </p>
@@ -25,8 +25,8 @@ const AboutCosplayer = () => {
 
         <p className="text-base md:text-lg">
           My favorite part of cosplay is building armor sets and big weapons,
-          mixing foam crafting, painting, and all the little details that make a
-          design feel real.
+          mixing foam crafting, painting, sewing, wig styling, weathering, and
+          all the little details that make a design feel real.
         </p>
 
         <p className="text-base md:text-lg">
