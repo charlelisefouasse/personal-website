@@ -209,7 +209,7 @@ const ProfessionalPage = () => {
                     <a
                       href={project.github_link}
                       target="_blank"
-                      className="hover:underlin flex w-fit items-center gap-1 text-xs text-[#729fcf] md:text-sm"
+                      className="flex w-fit items-center gap-1 text-xs text-[#729fcf] hover:underline md:text-sm"
                     >
                       <GithubIcon className="h-4" /> See on github{" "}
                       <ExternalLinkIcon className="mb-0.5 h-4" />

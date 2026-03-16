@@ -1,8 +1,9 @@
 import CreativeBackground from "@/components/cosplay/CreativeBackground";
+import { InstagramIcon } from "lucide-react";
 
 const AboutCosplayer = () => {
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-slate-950 px-6 py-20 md:px-20">
+    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-6 py-20 md:px-20">
       <CreativeBackground />
 
       <div className="b relative z-10 mx-auto flex max-w-4xl flex-col gap-6 rounded-3xl border border-purple-300/20 bg-slate-950/70 p-6 font-mono shadow-[0_0_80px_rgba(179,51,255,0.6)] md:p-10">
@@ -30,8 +31,15 @@ const AboutCosplayer = () => {
 
         <p className="text-base md:text-lg">
           Follow me on{" "}
-          <span className="font-semibold text-purple-300">Instagram</span> to
-          see more of my builds, work-in-progress shots, and finished
+          <a
+            href="https://www.instagram.com/acciocastiel_/"
+            target="_blank"
+            className="items-center font-semibold text-purple-300 hover:underline"
+          >
+            <InstagramIcon className="mr-0.5 inline h-5 pb-0.5" />
+            Instagram
+          </a>{" "}
+          to see more of my builds, work-in-progress shots, and finished
           photoshoots.
         </p>
         <p className="text-base md:text-lg">

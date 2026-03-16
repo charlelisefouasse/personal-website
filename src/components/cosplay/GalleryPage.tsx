@@ -7,16 +7,20 @@ gsap.registerPlugin(ScrollTrigger);
 
 const MOBILE_MAX_WIDTH = 767;
 
-function setupMobileEnterFromLeft(cards: HTMLDivElement[]) {
-  cards.forEach((card) => {
+function setupMobileEnterAlternating(cards: HTMLDivElement[]) {
+  cards.forEach((card, idx) => {
+    const fromX = idx % 2 === 0 ? -120 : 120;
+    const fromRot = idx % 2 === 0 ? -2.5 : 2.5;
     gsap.fromTo(
       card,
-      { x: -40, opacity: 0 },
+      { x: fromX, opacity: 0, rotate: fromRot, scale: 0.94 },
       {
         x: 0,
         opacity: 1,
-        duration: 0.6,
-        ease: "power2.out",
+        rotate: 0,
+        scale: 1,
+        duration: 0.8,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: card,
           start: "top 85%",
@@ -34,7 +38,7 @@ function setupDesktopPinnedHorizontalScroll(
 ) {
   const scrollDistance = container.scrollWidth - window.innerWidth;
 
-  gsap.to(container, {
+  return gsap.to(container, {
     x: -scrollDistance,
     ease: "none",
     scrollTrigger: {
@@ -45,6 +49,42 @@ function setupDesktopPinnedHorizontalScroll(
       end: () => (window.innerWidth > 1024 ? "+=4000" : "+=2000"),
       invalidateOnRefresh: true,
     },
+  });
+}
+
+function setupDesktopEnterAlternating(
+  cards: HTMLDivElement[],
+  containerAnimation: gsap.core.Tween,
+) {
+  cards.forEach((card, idx) => {
+    const fromY = idx % 2 === 0 ? -200 : 200;
+    const fromRot = idx % 2 === 0 ? 2 : -2;
+
+    // If the card is already on screen at load, don't animate it in.
+    const rect = card.getBoundingClientRect();
+    const isInitiallyVisible = rect.right > 0 && rect.left < window.innerWidth;
+    if (isInitiallyVisible) {
+      gsap.set(card, { y: 0, opacity: 1, rotate: 0, scale: 1 });
+      return;
+    }
+
+    // Start off-screen cards hidden, then animate them in as they enter.
+    gsap.set(card, { y: fromY, opacity: 0, rotate: fromRot, scale: 0.94 });
+    gsap.to(card, {
+      y: 0,
+      opacity: 1,
+      rotate: 0,
+      scale: 1,
+      duration: 0.9,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: card,
+        containerAnimation,
+        start: "left 85%",
+        end: "left 55%",
+        toggleActions: "play none none reverse",
+      },
+    });
   });
 }
 
@@ -62,17 +102,22 @@ const GalleryPage = () => {
         const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
         if (cards.length === 0) return;
 
-        setupMobileEnterFromLeft(cards);
+        setupMobileEnterAlternating(cards);
       });
 
       // Desktop/tablet: pinned horizontal scroll
       mm.add(`(min-width: ${MOBILE_MAX_WIDTH + 1}px)`, () => {
         if (!wrapperRef.current || !containerRefInternal.current) return;
 
-        setupDesktopPinnedHorizontalScroll(
+        const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+        const containerTween = setupDesktopPinnedHorizontalScroll(
           wrapperRef.current,
           containerRefInternal.current,
         );
+
+        if (cards.length > 0) {
+          setupDesktopEnterAlternating(cards, containerTween);
+        }
       });
 
       return () => mm.revert();
