@@ -198,6 +198,7 @@ function App() {
       >
         <button
           type="button"
+          aria-label="scroll to top"
           onClick={handleBackToHero}
           className="transform rounded-full bg-slate-900/80 px-2 py-2 tracking-wide text-cyan-100 uppercase shadow-lg ring-1 shadow-cyan-500/30 ring-cyan-400/60 backdrop-blur-md transition-transform duration-200 hover:-translate-y-1 hover:bg-slate-900 hover:shadow-cyan-400/50"
         >

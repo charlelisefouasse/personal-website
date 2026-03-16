@@ -106,7 +106,7 @@ const ProfessionalPage = () => {
             <div className="flex flex-col gap-2">
               <TerminalPrompt command="whoami" />
               <div className="flex flex-col items-center gap-1 text-center md:gap-2">
-                <h2 className="text-lg font-bold text-white md:text-3xl">
+                <h1 className="text-lg font-bold text-white md:text-3xl">
                   Hi{" "}
                   <img
                     src={wavingHand}
@@ -114,10 +114,10 @@ const ProfessionalPage = () => {
                     className="mb-1 ml-1 inline-block h-6 w-6 md:h-8 md:w-8"
                   />{" "}
                   ! My name is Charlélise Fouasse
-                </h2>
-                <h3 className="text-base font-bold text-gray-400 md:text-2xl">
+                </h1>
+                <h2 className="text-base font-bold text-gray-400 md:text-2xl">
                   Frontend developer
-                </h3>
+                </h2>
               </div>
             </div>
 
@@ -131,7 +131,7 @@ const ProfessionalPage = () => {
                   {skills.map((category, idx) => (
                     <div key={category.title} className="flex flex-col">
                       <span>
-                        <span className="font-bold text-[#ad7fa8]">
+                        <span className="font-bold text-[#ce9bc8]">
                           "{category.title.toLowerCase()}"
                         </span>
                         <span className="text-white">: [</span>

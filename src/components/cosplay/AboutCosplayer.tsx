@@ -11,9 +11,9 @@ const AboutCosplayer = () => {
           About me
         </p>
 
-        <h2 className="font-bowlby text-3xl leading-tight text-white md:text-5xl">
+        <h1 className="font-bowlby text-3xl leading-tight text-white md:text-5xl">
           Hi, I&apos;m <span className="text-purple-300">AccioCastiel</span>
-        </h2>
+        </h1>
 
         <p className="text-base md:text-lg">
           I&apos;ve been cosplaying since 2018, bringing to life characters I
