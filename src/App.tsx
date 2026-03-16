@@ -6,17 +6,52 @@ import Snap from "lenis/snap";
 import Loader3D from "@/components/Loader3D";
 import ProfessionalPage from "@/components/professionnal/ProfessionalPage";
 import WebGLHero from "@/components/hero/WebGLHero";
+import StaticHero from "@/components/hero/StaticHero";
 import CreativePage from "@/components/cosplay/CreativePage";
 import GalleryPage from "@/components/cosplay/GalleryPage";
 import PrinterTimelapse from "@/components/cosplay/PrinterTimelapse";
+import AboutCosplayer from "@/components/cosplay/AboutCosplayer";
+import FigurinesGalleryPlaceholder from "@/components/cosplay/FigurinesGalleryPlaceholder";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const aboutSentinelRef = useRef<HTMLDivElement>(null);
 
   const [isHeroReady, setIsHeroReady] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
+  const [heroMode, setHeroMode] = useState<"webgl" | "fallback">("webgl");
+  // const [isHeroReloading, setIsHeroReloading] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sentinel = aboutSentinelRef.current;
+      if (!sentinel) return;
+
+      const rect = sentinel.getBoundingClientRect();
+      const sentinelTop = rect.top + window.scrollY;
+      const hideThreshold = sentinelTop - 120;
+
+      if (window.scrollY >= hideThreshold && heroMode === "webgl") {
+        setHeroMode("fallback");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [heroMode]);
+
+  const handleLoadHeroAnimation = () => {
+    if (heroMode === "webgl") return;
+    setIsHeroReady(false);
+    // setIsHeroReloading(true);
+    setHeroMode("webgl");
+  };
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -56,6 +91,7 @@ function App() {
 
   useEffect(() => {
     if (isHeroReady) {
+      // setIsHeroReloading(false);
       if ("scrollRestoration" in history) {
         history.scrollRestoration = "manual";
       }
@@ -106,13 +142,20 @@ function App() {
         ref={heroRef}
         className="snap-section bg-pro-bg relative h-svh w-full shrink-0 overflow-hidden"
       >
-        <WebGLHero onReady={() => setIsHeroReady(true)} />
+        {heroMode === "webgl" ? (
+          <WebGLHero onReady={() => setIsHeroReady(true)} />
+        ) : (
+          <StaticHero onLoadAnimation={handleLoadHeroAnimation} />
+        )}
       </section>
 
       <section className="snap-section w-full shrink-0 bg-slate-950">
         <CreativePage />
+        <div ref={aboutSentinelRef} />
+        <AboutCosplayer />
         <GalleryPage />
         <PrinterTimelapse />
+        <FigurinesGalleryPlaceholder />
       </section>
     </div>
   );
