@@ -35,7 +35,7 @@ const StaticHero: React.FC<StaticHeroProps> = ({ onLoadAnimation }) => {
         <p className="font-mono text-xs tracking-[0.25em] text-cyan-200/80 uppercase md:text-sm">
           Performance saver
         </p>
-        <h2 className="font-bowlby text-xl text-white md:text-2xl">
+        <h2 className="font-bowlby text-xl text-white uppercase md:text-2xl">
           Animation is paused
         </h2>
         <p className="max-w-md font-mono text-xs text-cyan-100/90 md:text-sm">

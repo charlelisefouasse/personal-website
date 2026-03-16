@@ -12,6 +12,7 @@ import GalleryPage from "@/components/cosplay/GalleryPage";
 import PrinterTimelapse from "@/components/cosplay/PrinterTimelapse";
 import AboutCosplayer from "@/components/cosplay/AboutCosplayer";
 import FigurinesGalleryPlaceholder from "@/components/cosplay/FigurinesGalleryPlaceholder";
+import { ArrowUpIcon } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,6 +22,7 @@ function App() {
 
   const [isHeroReady, setIsHeroReady] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
+  const [showBackToHero, setShowBackToHero] = useState(false);
   const [heroMode, setHeroMode] = useState<"webgl" | "fallback">("webgl");
   // const [isHeroReloading, setIsHeroReloading] = useState(false);
 
@@ -90,6 +92,35 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const onScroll = () => {
+      const hero = heroRef.current;
+      if (!hero) return;
+
+      const heroTop = hero.offsetTop;
+      const threshold = heroTop + hero.offsetHeight * 0.4;
+      setShowBackToHero(window.scrollY > threshold);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  const handleBackToHero = () => {
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const target = hero.offsetTop;
+    window.scrollTo({
+      top: target,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
     if (isHeroReady) {
       // setIsHeroReloading(false);
       if ("scrollRestoration" in history) {
@@ -157,6 +188,22 @@ function App() {
         <PrinterTimelapse />
         <FigurinesGalleryPlaceholder />
       </section>
+
+      <div
+        className={`fixed right-5 bottom-5 z-50 transition-opacity duration-300 md:right-10 md:bottom-10 ${
+          showBackToHero
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
+        }`}
+      >
+        <button
+          type="button"
+          onClick={handleBackToHero}
+          className="transform rounded-full bg-slate-900/80 px-2 py-2 tracking-wide text-cyan-100 uppercase shadow-lg ring-1 shadow-cyan-500/30 ring-cyan-400/60 backdrop-blur-md transition-transform duration-200 hover:-translate-y-1 hover:bg-slate-900 hover:shadow-cyan-400/50"
+        >
+          <ArrowUpIcon />
+        </button>
+      </div>
     </div>
   );
 }
