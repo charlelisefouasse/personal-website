@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import CreativeBackground from "@/components/cosplay/CreativeBackground";
+import CreativeBackground from "@/components/cosplay/creative_background";
 import { useCharAnimation } from "@/utils/text-animation";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);

@@ -1,5 +1,5 @@
-import ProfessionalLayer from "@/components/hero/ProfessionalLayer";
-import CreativeLayer from "@/components/hero/CreativeLayer";
+import CreativeLayer from "@/components/hero/creative_layer";
+import ProfessionalLayer from "@/components/hero/professional_layer";
 
 interface StaticHeroProps {
   onLoadAnimation: () => void;

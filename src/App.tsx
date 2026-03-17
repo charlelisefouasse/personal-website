@@ -3,16 +3,17 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import Snap from "lenis/snap";
-import Loader3D from "@/components/Loader3D";
-import ProfessionalPage from "@/components/professionnal/ProfessionalPage";
+
+import { ArrowUpIcon } from "lucide-react";
+import Loader3D from "@/components/loader_3D";
+import ProfessionalPage from "@/components/professional/professional_page";
 import WebGLHero from "@/components/hero/WebGLHero";
 import StaticHero from "@/components/hero/StaticHero";
-import CreativePage from "@/components/cosplay/CreativePage";
-import GalleryPage from "@/components/cosplay/GalleryPage";
-import PrinterTimelapse from "@/components/cosplay/PrinterTimelapse";
-import AboutCosplayer from "@/components/cosplay/AboutCosplayer";
-import FigurinesGalleryPlaceholder from "@/components/cosplay/FigurinesGalleryPlaceholder";
-import { ArrowUpIcon } from "lucide-react";
+import CreativePage from "@/components/cosplay/creative_page";
+import AboutCosplayer from "@/components/cosplay/about_cosplayer";
+import CosplayGallery from "@/components/cosplay/cosplay_gallery";
+import PrinterSection from "@/components/cosplay/printer_section";
+import FigurinesGallery from "@/components/cosplay/figurines_gallery";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,9 +25,14 @@ function App() {
   const [showLoader, setShowLoader] = useState(true);
   const [showBackToHero, setShowBackToHero] = useState(false);
   const [heroMode, setHeroMode] = useState<"webgl" | "fallback">("webgl");
-  // const [isHeroReloading, setIsHeroReloading] = useState(false);
+
+  console.log({ heroMode });
 
   useEffect(() => {
+    // FIX: Do not attach scroll logic or change heroMode while the loader
+    // is visible or the WebGL hero is not fully ready.
+    if (showLoader || !isHeroReady) return;
+
     const handleScroll = () => {
       const sentinel = aboutSentinelRef.current;
       if (!sentinel) return;
@@ -41,19 +47,14 @@ function App() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Check initially once safely mounted and loaded
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [heroMode]);
-
-  const handleLoadHeroAnimation = () => {
-    if (heroMode === "webgl") return;
-    setIsHeroReady(false);
-    // setIsHeroReloading(true);
-    setHeroMode("webgl");
-  };
+  }, [heroMode, showLoader, isHeroReady]);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -122,7 +123,6 @@ function App() {
 
   useEffect(() => {
     if (isHeroReady) {
-      // setIsHeroReloading(false);
       if ("scrollRestoration" in history) {
         history.scrollRestoration = "manual";
       }
@@ -176,7 +176,7 @@ function App() {
         {heroMode === "webgl" ? (
           <WebGLHero onReady={() => setIsHeroReady(true)} />
         ) : (
-          <StaticHero onLoadAnimation={handleLoadHeroAnimation} />
+          <StaticHero onLoadAnimation={() => setHeroMode("webgl")} />
         )}
       </section>
 
@@ -184,9 +184,9 @@ function App() {
         <CreativePage />
         <div ref={aboutSentinelRef} />
         <AboutCosplayer />
-        <GalleryPage />
-        <PrinterTimelapse />
-        <FigurinesGalleryPlaceholder />
+        <CosplayGallery />
+        <PrinterSection />
+        <FigurinesGallery />
       </section>
 
       <div

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import CreativeBackground from "@/components/cosplay/CreativeBackground";
+import CreativeBackground from "@/components/cosplay/creative_background";
 
 interface LoaderProps {
   ready: boolean;
@@ -19,6 +19,9 @@ const Loader3D: React.FC<LoaderProps> = ({ ready, onComplete }) => {
   }, [ready]);
 
   useEffect(() => {
+    console.log("cc");
+
+    console.log(ready);
     if (!cubeRef.current) return;
 
     const ctx = gsap.context(() => {

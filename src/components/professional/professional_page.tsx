@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import {
   TERMINAL_NAME,
   TerminalPrompt,
-} from "@/components/professionnal/TerminalPrompt";
+} from "@/components/professional/terminal_prompt";
 
 const Projects = [
   {

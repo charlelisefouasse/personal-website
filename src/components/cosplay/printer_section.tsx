@@ -1,11 +1,11 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import CreativeBackground from "@/components/cosplay/CreativeBackground";
+import CreativeBackground from "@/components/cosplay/creative_background";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PrinterTimelapse = () => {
+const PrinterSection = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const finishedImageRef = useRef<HTMLDivElement>(null);
 
@@ -208,4 +208,4 @@ const PrinterTimelapse = () => {
   );
 };
 
-export default PrinterTimelapse;
+export default PrinterSection;

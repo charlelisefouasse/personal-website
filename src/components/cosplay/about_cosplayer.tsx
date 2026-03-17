@@ -1,4 +1,4 @@
-import CreativeBackground from "@/components/cosplay/CreativeBackground";
+import CreativeBackground from "@/components/cosplay/creative_background";
 import { InstagramIcon } from "lucide-react";
 
 const AboutCosplayer = () => {

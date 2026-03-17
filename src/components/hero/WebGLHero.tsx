@@ -2,11 +2,12 @@ import { useRef, useEffect, useMemo, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import ProfessionalLayer from "@/components/hero/ProfessionalLayer";
-import CreativeLayer from "@/components/hero/CreativeLayer";
+
 // Import shaders
 import heroVert from "@/components/hero/shaders/hero.vert?raw";
 import heroFrag from "@/components/hero/shaders/hero.frag?raw";
+import ProfessionalLayer from "@/components/hero/professional_layer";
+import CreativeLayer from "@/components/hero/creative_layer";
 
 useTexture.preload(["/cosplay.jpg", "/normal.jpg"]);
 
