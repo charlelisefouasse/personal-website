@@ -126,13 +126,13 @@ export default function ImageGallery<T>({
   return (
     <div
       ref={wrapperRef}
-      className="relative flex min-h-screen w-full items-start overflow-x-hidden overflow-y-visible bg-slate-950 md:h-screen md:items-center md:overflow-hidden"
+      className="relative flex min-h-screen w-full items-start overflow-x-hidden overflow-y-visible md:h-screen md:items-center md:overflow-hidden"
     >
       {children}
 
       <div
         ref={containerRef}
-        className="flex w-full flex-col items-center gap-6 px-5 pt-28 pb-[200px] md:w-max md:flex-row md:gap-[5vw] md:px-[5vw] md:pt-0 md:pb-0"
+        className="flex w-full flex-col items-center gap-6 px-5 pt-28 pb-[100px] md:w-max md:flex-row md:gap-[5vw] md:px-[5vw] md:pt-0 md:pb-0"
       >
         {/* Spacers for desktop horizontal scroll feel */}
         <div className="hidden w-[40vw] shrink-0 md:block" />

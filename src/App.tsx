@@ -14,6 +14,7 @@ import AboutCosplayer from "@/components/cosplay/about_cosplayer";
 import CosplayGallery from "@/components/cosplay/cosplay_gallery";
 import PrinterSection from "@/components/cosplay/printer_section";
 import FigurinesGallery from "@/components/cosplay/figurines_gallery";
+import InstagramCta from "@/components/cosplay/instagram_cta";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -187,6 +188,7 @@ function App() {
         <CosplayGallery />
         <PrinterSection />
         <FigurinesGallery />
+        <InstagramCta />
       </section>
 
       <div
