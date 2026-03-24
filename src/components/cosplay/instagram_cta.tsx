@@ -12,7 +12,7 @@ export default function InstagramCta() {
           <Instagram className="h-15 w-15 text-white md:h-18 md:w-18" />
         </div>
 
-        <h2 className="font-bowlby mb-4 text-3xl leading-tight md:text-5xl">
+        <h2 className="font-bowlby mb-4 text-3xl leading-tight uppercase md:text-5xl">
           Follow my Cosplay Adventures
         </h2>
 
