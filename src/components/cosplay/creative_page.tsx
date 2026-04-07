@@ -70,19 +70,19 @@ const CreativePage = () => {
             ref={cutterRef}
             src="/cutter.png"
             alt=""
-            className="absolute top-55 -left-6 w-28 -rotate-45 opacity-80 md:top-10 md:-left-70 md:w-64"
+            className="absolute top-2/6 -left-6 w-28 -rotate-45 opacity-80 md:top-10 md:-left-70 md:w-64"
           />
           <img
             ref={paintRef}
             src="/paint.png"
             alt=""
-            className="absolute top-50 -right-8 w-28 rotate-12 opacity-80 md:top-10 md:-right-60 md:w-64"
+            className="absolute top-5/12 -right-8 w-28 rotate-12 opacity-80 md:top-10 md:-right-60 md:w-64"
           />
           <img
             ref={rulersRef}
             src="/rulers.png"
             alt=""
-            className="absolute right-6 -bottom-52 w-32 -rotate-12 opacity-80 md:right-32 md:-bottom-65 md:w-64"
+            className="absolute right-6 -bottom-4/10 w-32 -rotate-12 opacity-80 md:right-32 md:-bottom-65 md:w-64"
           />
           <h2 className="font-bowlby animate-text-gradient animate-gradient-shift bg-linear-to-br from-cyan-400 via-purple-600 to-blue-400 bg-size-[300%_300%] bg-clip-text text-center text-5xl leading-none text-transparent opacity-80 md:text-[12rem]">
             COSPLAYER
