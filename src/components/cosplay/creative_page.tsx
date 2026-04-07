@@ -5,6 +5,10 @@ import { SplitText } from "gsap/SplitText";
 import CreativeBackground from "@/components/cosplay/creative_background";
 import { useCharAnimation } from "@/utils/text-animation";
 
+import rulers from "@/assets/rulers.png";
+import paint from "@/assets/paint.png";
+import cutter from "@/assets/cutter.png";
+
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const CreativePage = () => {
@@ -68,19 +72,19 @@ const CreativePage = () => {
         <div className="relative flex flex-1 flex-col justify-end gap-6 text-center">
           <img
             ref={cutterRef}
-            src="/cutter.png"
+            src={cutter}
             alt=""
             className="absolute top-2/6 -left-6 w-28 -rotate-45 opacity-80 md:top-10 md:-left-70 md:w-64"
           />
           <img
             ref={paintRef}
-            src="/paint.png"
+            src={paint}
             alt=""
             className="absolute top-5/12 -right-8 w-28 rotate-12 opacity-80 md:top-10 md:-right-60 md:w-64"
           />
           <img
             ref={rulersRef}
-            src="/rulers.png"
+            src={rulers}
             alt=""
             className="absolute right-6 -bottom-4/10 w-32 -rotate-12 opacity-80 md:right-32 md:-bottom-65 md:w-64"
           />

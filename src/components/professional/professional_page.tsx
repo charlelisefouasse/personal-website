@@ -11,16 +11,19 @@ const Projects = [
   {
     title: "Records",
     description: "Register your vinyl records collection",
-    image: "/logo_records_pixel.png",
     preview_link: "https://charlelise-vinyl-collection.vercel.app/",
     github_link: "https://github.com/charlelisefouasse/vinyl-collection",
   },
   {
     title: "Concert ticket generator",
     description: "Generate concert tickets to keep as souvenirs",
-    image: "",
     preview_link: "https://concert-tickets-generator.vercel.app/",
     github_link: "https://github.com/charlelisefouasse/concert-tickets",
+  },
+  {
+    title: "88BPM",
+    description: "Local rock band's website (redesign)",
+    preview_link: "https://88bpm.fr/",
   },
 ];
 
@@ -206,14 +209,16 @@ const ProfessionalPage = () => {
                       </div>
                       <ExternalLinkIcon className="mt-0.5 h-4 md:mt-1" />
                     </a>
-                    <a
-                      href={project.github_link}
-                      target="_blank"
-                      className="flex w-fit items-center gap-1 text-xs text-[#729fcf] hover:underline md:text-sm"
-                    >
-                      <GithubIcon className="h-4" /> See on github{" "}
-                      <ExternalLinkIcon className="mb-0.5 h-4" />
-                    </a>
+                    {project.github_link && (
+                      <a
+                        href={project.github_link}
+                        target="_blank"
+                        className="flex w-fit items-center gap-1 text-xs text-[#729fcf] hover:underline md:text-sm"
+                      >
+                        <GithubIcon className="h-4" /> See on github{" "}
+                        <ExternalLinkIcon className="mb-0.5 h-4" />
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>

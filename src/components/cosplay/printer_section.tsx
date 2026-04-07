@@ -3,6 +3,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CreativeBackground from "@/components/cosplay/creative_background";
 
+import printer_finished from "@/assets/printer_finished.png";
+import printer_empty from "@/assets/printer_empty.png";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const PrinterSection = () => {
@@ -180,7 +183,7 @@ const PrinterSection = () => {
           <div className="w-full">
             <div className="max-h-xl relative mx-auto aspect-square w-full max-w-2xl overflow-hidden rounded-xl md:rounded-2xl">
               <img
-                src="/printer_empty.png"
+                src={printer_empty}
                 alt="3D Printer Empty"
                 loading="lazy"
                 className="absolute inset-0 z-0 h-full w-full object-cover"
@@ -194,7 +197,7 @@ const PrinterSection = () => {
                 }}
               >
                 <img
-                  src="/printer_finished.png"
+                  src={printer_finished}
                   alt="3D Printer Finished"
                   loading="lazy"
                   className="h-full w-full object-cover"
