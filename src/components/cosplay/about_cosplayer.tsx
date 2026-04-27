@@ -11,9 +11,9 @@ const AboutCosplayer = () => {
           About me
         </p>
 
-        <h1 className="font-bowlby text-2xl leading-tight text-white md:text-5xl">
+        <h2 className="font-bowlby text-2xl leading-tight text-white md:text-5xl">
           Hi, I&apos;m <span className="text-purple-300">AccioCastiel</span>
-        </h1>
+        </h2>
 
         <div className="space-y-4 text-justify md:text-left">
           <p className="text-base md:text-lg">

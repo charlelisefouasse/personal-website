@@ -109,7 +109,7 @@ const ProfessionalPage = () => {
             <div className="flex flex-col gap-2">
               <TerminalPrompt command="whoami" />
               <div className="flex flex-col items-center gap-1 text-center md:gap-2">
-                <h1 className="text-lg font-bold text-white md:text-3xl">
+                <h2 className="text-lg font-bold text-white md:text-3xl">
                   Hi{" "}
                   <img
                     src={wavingHand}
@@ -117,7 +117,7 @@ const ProfessionalPage = () => {
                     className="mb-1 ml-1 inline-block h-6 w-6 md:h-8 md:w-8"
                   />{" "}
                   ! My name is Charlélise Fouasse
-                </h1>
+                </h2>
                 <h2 className="text-base font-bold text-gray-400 md:text-2xl">
                   Frontend developer
                 </h2>

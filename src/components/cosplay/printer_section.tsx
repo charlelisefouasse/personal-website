@@ -166,9 +166,9 @@ const PrinterSection = () => {
       <div className="w-full px-5 pb-10 md:px-16 md:pt-16 md:pb-16">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-12">
           <div className="relative z-10 max-w-xl">
-            <h1 className="font-bowlby mt-3 text-3xl leading-tight text-white md:text-5xl">
+            <h2 className="font-bowlby mt-3 text-3xl leading-tight text-white md:text-5xl">
               3D printing is my other playground
-            </h1>
+            </h2>
             <p className="mt-5 font-mono text-base text-pink-100/90 md:text-lg">
               I love 3D printing, especially figurines that I can later paint by
               hand. It&apos;s the perfect mix of precision and creativity:

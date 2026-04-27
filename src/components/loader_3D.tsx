@@ -112,9 +112,9 @@ const Loader3D: React.FC<LoaderProps> = ({ ready, onComplete }) => {
           }}
         >
           <div className="bg-grid flex h-full w-full items-center justify-center overflow-hidden text-gray-800">
-            <h1 className="font-orbitron mx-auto max-w-48 text-center text-2xl font-bold text-wrap sm:max-w-none sm:text-4xl md:text-6xl">
+            <div className="font-orbitron mx-auto max-w-48 text-center text-2xl font-bold text-wrap sm:max-w-none sm:text-4xl md:text-6xl">
               CHARLÉLISE FOUASSE
-            </h1>
+            </div>
           </div>
         </div>
 
@@ -131,9 +131,9 @@ const Loader3D: React.FC<LoaderProps> = ({ ready, onComplete }) => {
           <div className="flex h-full w-full items-center justify-center overflow-hidden bg-slate-950">
             <CreativeBackground />
 
-            <h1 className="font-bowlby bg-linear-to-br from-cyan-400 to-purple-600 bg-clip-text text-center text-2xl text-transparent opacity-80 sm:text-5xl md:text-8xl">
+            <div className="font-bowlby bg-linear-to-br from-cyan-400 to-purple-600 bg-clip-text text-center text-2xl text-transparent opacity-80 sm:text-5xl md:text-8xl">
               ACCIOCASTIEL
-            </h1>
+            </div>
           </div>
         </div>
       </div>
