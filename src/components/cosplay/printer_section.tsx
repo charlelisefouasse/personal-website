@@ -169,13 +169,13 @@ const PrinterSection = () => {
             <h2 className="font-bowlby mt-3 text-3xl leading-tight text-white md:text-5xl">
               3D printing is my other playground
             </h2>
-            <p className="mt-5 font-mono text-base text-pink-100/90 md:text-lg">
+            <p className="font-geist-mono mt-5 text-base text-pink-100/90 md:text-lg">
               I love 3D printing, especially figurines that I can later paint by
               hand. It&apos;s the perfect mix of precision and creativity:
               print, sand, prime, then bring it to life with color.
             </p>
 
-            <p className="mt-4 font-mono text-base text-pink-100/90 md:text-lg">
+            <p className="font-geist-mono mt-4 text-base text-pink-100/90 md:text-lg">
               Adventure further to discover some figurines!
             </p>
           </div>

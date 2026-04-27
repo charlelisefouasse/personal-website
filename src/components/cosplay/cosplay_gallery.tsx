@@ -36,9 +36,9 @@ export default function CosplayGallery() {
           />
           {image.credit && (
             <div
-              className={`text-shadow-2xl absolute right-3 bottom-2 z-10 flex items-center gap-1 rounded font-mono text-[11px] leading-none text-white ${image.credit.link ? "hover:text-purple-300" : ""}`}
+              className={`text-shadow-2xl font-geist-mono absolute right-3 bottom-2 z-10 flex items-center gap-1 rounded text-[11px] text-white ${image.credit.link ? "hover:text-purple-300" : ""}`}
             >
-              <CameraIcon size={14} className="mb-0.5" />
+              <CameraIcon size={14} className="" />
               {image.credit.link ? (
                 <a
                   href={image.credit.link}
@@ -61,7 +61,7 @@ export default function CosplayGallery() {
         <h2 className="font-bowlby animate-text-gradient bg-linear-to-br from-cyan-400 via-purple-600 to-blue-400 bg-clip-text text-3xl leading-none text-transparent md:text-6xl">
           COSPLAY GALLERY
         </h2>
-        <p className="mt-2 font-mono text-sm text-cyan-200/80 md:text-base">
+        <p className="font-geist-mono mt-2 text-sm text-cyan-200/80 md:text-base">
           Scroll to explore
         </p>
       </div>

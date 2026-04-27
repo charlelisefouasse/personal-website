@@ -10,14 +10,11 @@
   --font-orbitron: "Orbitron", Inter, sans-serif;
   --font-geist-mono: "Geist Mono", monospace;
   --color-pro-bg: #fcfbf9;
-
   --background-image-grid-pattern:
     linear-gradient(to right, var(--color-gray-200) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-gray-200) 1px, transparent 1px);
-
   --animate-blink: blink 1s step-end infinite;
   --animate-text-gradient: text-gradient 4s ease infinite;
-
   --breakpoint-3xl: 120rem;
 
   @keyframes blink {

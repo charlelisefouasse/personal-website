@@ -93,7 +93,7 @@ const CreativePage = () => {
           </h2>
           <span
             ref={subtitleRef}
-            className="text-bold font-mono text-2xl text-cyan-200 uppercase md:text-4xl"
+            className="text-bold font-geist-mono text-2xl text-cyan-200 uppercase md:text-4xl"
           >
             Since 2018
           </span>

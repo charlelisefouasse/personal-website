@@ -16,7 +16,7 @@ export default function InstagramCta() {
           Follow my Cosplay Adventures
         </h2>
 
-        <p className="mb-8 max-w-2xl font-mono text-base text-pink-100/80 md:text-lg">
+        <p className="font-geist-mono mb-8 max-w-2xl text-base text-pink-100/80 md:text-lg">
           Want to see more behind-the-scenes, work in progress, and the latest
           cosplay and 3D printing projects? Join me on Instagram!
         </p>
@@ -25,7 +25,7 @@ export default function InstagramCta() {
           href="https://www.instagram.com/acciocastiel_/"
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative flex items-center justify-center overflow-hidden rounded-full bg-linear-to-tr from-[#fcb045] via-[#fd1d1d] to-[#833ab4] px-8 py-4 font-mono text-lg font-bold text-white transition-transform duration-300 hover:scale-105 hover:bg-linear-to-tr hover:shadow-lg hover:shadow-pink-500/25 md:bg-white md:bg-none md:text-slate-950"
+          className="group font-geist-mono relative flex items-center justify-center overflow-hidden rounded-full bg-linear-to-tr from-[#fcb045] via-[#fd1d1d] to-[#833ab4] px-8 py-4 text-lg font-bold text-white transition-transform duration-300 hover:scale-105 hover:bg-linear-to-tr hover:shadow-lg hover:shadow-pink-500/25 md:bg-white md:bg-none md:text-slate-950"
         >
           <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
             <Instagram className="h-5 w-5" />

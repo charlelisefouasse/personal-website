@@ -32,20 +32,20 @@ const StaticHero: React.FC<StaticHeroProps> = ({ onLoadAnimation }) => {
       </div>
 
       <div className="relative z-10 m-auto flex flex-col items-center gap-4 rounded-2xl bg-slate-950/80 px-6 py-4 text-center shadow-xl backdrop-blur-md md:px-8 md:py-5">
-        <p className="font-mono text-xs tracking-[0.25em] text-cyan-200/80 uppercase md:text-sm">
+        <p className="font-geist-mono text-xs tracking-[0.25em] text-cyan-200/80 uppercase md:text-sm">
           Performance saver
         </p>
         <h2 className="font-bowlby text-xl text-white uppercase md:text-2xl">
           Animation is paused
         </h2>
-        <p className="max-w-md font-mono text-xs text-cyan-100/90 md:text-sm">
+        <p className="font-geist-mono max-w-md text-xs text-cyan-100/90 md:text-sm">
           To keep the experience smooth, the animation has been disabled. You
           can reactivate it at any time.
         </p>
         <button
           type="button"
           onClick={onLoadAnimation}
-          className="rounded-full bg-purple-600 px-5 py-2 font-mono text-xs font-semibold text-white shadow-lg transition hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-400/70 md:px-6 md:py-2.5 md:text-sm"
+          className="font-geist-mono rounded-full bg-purple-600 px-5 py-2 text-xs font-semibold text-white shadow-lg transition hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-400/70 md:px-6 md:py-2.5 md:text-sm"
         >
           Reactivate animation
         </button>

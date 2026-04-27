@@ -36,7 +36,7 @@ export default function FigurinesGallery() {
         <h2 className="font-bowlby animate-text-gradient bg-linear-to-br from-cyan-400 via-purple-600 to-blue-400 bg-clip-text text-3xl leading-none text-transparent md:text-6xl">
           FIGURINES GALLERY
         </h2>
-        <p className="mt-2 font-mono text-sm text-cyan-200/80 md:text-base">
+        <p className="font-geist-mono mt-2 text-sm text-cyan-200/80 md:text-base">
           Scroll to explore
         </p>
       </div>
